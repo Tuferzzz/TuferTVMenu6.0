@@ -1,6 +1,7 @@
 package tufer.com.menutest.UIActivity;
 
 import android.content.Context;
+import android.provider.Settings;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -270,16 +271,16 @@ public class MainMenuViewHolder {
             intelligenceTextView[i]=new TextView(activity);
             intelligenceTextView[i]=(TextView)activity.findViewById(intelligenceTextViewId[i]);
         }
-//        if(Settings.Global.getInt(activity.getContentResolver(),Settings.Global.ON_INTELLIGENT_IDENTIFICATION, 0) == 0){
-//            intelligenceTextView[0].setText(activity.getString(R.string.str_mainmenu_default_switch_off));
-//        }else{
-//            intelligenceTextView[0].setText(activity.getString(R.string.str_mainmenu_default_switch_on));
-//        }
-//        if(Settings.Global.getInt(activity.getContentResolver(),Settings.Global.ON_SIGNAL_TV_STANBY, 0) == 0){
-//            intelligenceTextView[7].setText(activity.getString(R.string.str_mainmenu_default_switch_off));
-//        }else{
-//            intelligenceTextView[7].setText(activity.getString(R.string.str_mainmenu_default_switch_on));
-//        }
+        if(Settings.Global.getInt(activity.getContentResolver(),Settings.Global.ON_INTELLIGENT_IDENTIFICATION, 0) == 0){
+            intelligenceTextView[0].setText(activity.getString(R.string.str_mainmenu_default_switch_off));
+        }else{
+            intelligenceTextView[0].setText(activity.getString(R.string.str_mainmenu_default_switch_on));
+        }
+        if(Settings.Global.getInt(activity.getContentResolver(),Settings.Global.ON_SIGNAL_TV_STANBY, 0) == 0){
+            intelligenceTextView[7].setText(activity.getString(R.string.str_mainmenu_default_switch_off));
+        }else{
+            intelligenceTextView[7].setText(activity.getString(R.string.str_mainmenu_default_switch_on));
+        }
     }
 
     private void initSystem() {

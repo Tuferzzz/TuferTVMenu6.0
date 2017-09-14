@@ -750,17 +750,16 @@ public class MainActivity extends Activity  {
 
     private void initIntelligenceCallback() {
         setSleepAndPowerTime();
-//        if(Settings.Global.getInt(getContentResolver(),Settings.Global.ON_INTELLIGENT_IDENTIFICATION, 0) == 0){
-//            mainMenuViewHolder.intelligenceTextView[0].setText(getString(R.string.str_mainmenu_default_switch_off));
-//        }else{
-//            mainMenuViewHolder.intelligenceTextView[0].setText(getString(R.string.str_mainmenu_default_switch_on));
-//        }
-//        if(Settings.Global.getInt(getContentResolver(),Settings.Global.ON_SIGNAL_TV_STANBY, 0) == 0){
-//            mainMenuViewHolder.intelligenceTextView[7].setText(getString(R.string.str_mainmenu_default_switch_off));
-//        }else{
-//            mainMenuViewHolder.intelligenceTextView[7].setText(getString(R.string.str_mainmenu_default_switch_on));
-//        }
-        //setMenuDisPlayTime();
+        if(Settings.Global.getInt(getContentResolver(),Settings.Global.ON_INTELLIGENT_IDENTIFICATION, 0) == 0){
+            mainMenuViewHolder.intelligenceTextView[0].setText(getString(R.string.str_mainmenu_default_switch_off));
+        }else{
+            mainMenuViewHolder.intelligenceTextView[0].setText(getString(R.string.str_mainmenu_default_switch_on));
+        }
+        if(Settings.Global.getInt(getContentResolver(),Settings.Global.ON_SIGNAL_TV_STANBY, 0) == 0){
+            mainMenuViewHolder.intelligenceTextView[7].setText(getString(R.string.str_mainmenu_default_switch_off));
+        }else{
+            mainMenuViewHolder.intelligenceTextView[7].setText(getString(R.string.str_mainmenu_default_switch_on));
+        }
     }
 
     private void initPictureCallback() {

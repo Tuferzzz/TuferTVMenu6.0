@@ -508,15 +508,14 @@ public class SelectDialog extends Activity {
 
     public boolean getIdentifyDetectionStatus()
     {
-//        return Settings.Global.getInt(getContentResolver(),
-//                        Settings.Global.ON_INTELLIGENT_IDENTIFICATION, 0) == 0;
-        return true;
+        return Settings.Global.getInt(getContentResolver(),
+                        Settings.Global.ON_INTELLIGENT_IDENTIFICATION, 0) == 0;
 
     }
     public void setIdentifyDetectionStatus(boolean param)
     {
-//        Settings.Global.putInt(getContentResolver(),
-//                Settings.Global.ON_INTELLIGENT_IDENTIFICATION, param?0:1) ;
+        Settings.Global.putInt(getContentResolver(),
+                Settings.Global.ON_INTELLIGENT_IDENTIFICATION, param?0:1) ;
 
 
     }
@@ -585,14 +584,13 @@ public class SelectDialog extends Activity {
     }
     private boolean getNoSignalStandbyMode()
     {
-//        return Settings.Global.getInt(getContentResolver(),
-//                Settings.Global.ON_SIGNAL_TV_STANBY, 0) == 0;
-        return true;
+        return Settings.Global.getInt(getContentResolver(),
+                Settings.Global.ON_SIGNAL_TV_STANBY, 0) == 0;
     }
     private void setNoSignalStandbyMode(boolean b)
     {
-//        Settings.Global.putInt(getContentResolver(),
-//                       Settings.Global.ON_SIGNAL_TV_STANBY, b?0:1) ;
+        Settings.Global.putInt(getContentResolver(),
+                       Settings.Global.ON_SIGNAL_TV_STANBY, b?0:1) ;
 
     }
     private void setPowerOnMusicMode(int paramInt)
