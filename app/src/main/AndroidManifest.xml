@@ -397,14 +397,6 @@
                 <action android:name="tufer.com.menutest.UIActivity.intent.action.TV_TIME_ZONE_CHANGE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="com.mstar.tv.tvplayer.ui.intent.action.TV_TIME_ZONE_CHANGE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.mstar.tv.tvplayer.ui.intent.action.SOURCE_INFO" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
         <activity
             android:name="tufer.com.menutest.UIActivity.channel.ChannelListActivity"
