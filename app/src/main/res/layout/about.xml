@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center" >
+
+    <LinearLayout
+        android:layout_width="@dimen/x450dp"
+        android:layout_height="@dimen/x310dp"
+        android:background="@drawable/set_bg"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/x24dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/str_mainmenu_about_systeminfo"
+                android:textColor="#FFFFFFFF"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="@dimen/sp20" />
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x5dp"
+                android:background="@drawable/line" >
+            </ImageView>
+
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/about_list_select"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/x260dp"
+            android:listSelector="@drawable/select_item"
+            android:minHeight="@dimen/x40dp"
+            android:paddingTop="@dimen/x3dp"
+            android:scrollbars="none" >
+        </ListView>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x10dp"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x5dp"
+                android:background="@drawable/line" >
+            </ImageView>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

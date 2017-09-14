@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/mainlinear_picture_geometricadjust" style="@style/third_main_layout2_style"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout style="@style/third_layout2_title_style">
+        <TextView android:text="@string/str_mainmenu_picture_geometricadjust" style="@style/third_layout_title_text_style" />
+    </LinearLayout>
+    <ScrollView style="@style/third_layout2_scrollview_style">
+        <LinearLayout android:gravity="center" style="@style/third_layout2_scrollview_style">
+            <LinearLayout android:id="@+id/linearlayout_picture_geometricadjust_clock" style="@style/third_layout2_item_style">
+                <TextView android:text="@string/str_mainmenu_picture_geometricadjust_clock" style="@style/third_layout2_text_style" />
+                <SeekBar android:id="@+id/clock_seekbar" style="@style/third_layout2_seekbar_style" />
+                <TextView android:id="@+id/clock_number" style="@style/third_layout2_text_val_style" />
+            </LinearLayout>
+            <LinearLayout style="@style/third_layout_segmentation_style" />
+            <LinearLayout android:id="@+id/linearlayout_picture_geometricadjust_phase" style="@style/third_layout2_item_style">
+                <TextView android:text="@string/str_mainmenu_picture_geometricadjust_phase" style="@style/third_layout2_text_style" />
+                <SeekBar android:id="@+id/phase_seekbar" style="@style/third_layout2_seekbar_style" />
+                <TextView android:id="@+id/phase_number" style="@style/third_layout2_text_val_style" />
+            </LinearLayout>
+            <LinearLayout style="@style/third_layout_segmentation_style" />
+            <LinearLayout android:id="@+id/linearlayout_picture_geometricadjust_horizontal_pos" style="@style/third_layout2_item_style">
+                <TextView android:text="@string/str_mainmenu_picture_geometricadjust_horizontal_pos" style="@style/third_layout2_text_style" />
+                <SeekBar android:id="@+id/horizontal_pos_seekbar" style="@style/third_layout2_seekbar_style" />
+                <TextView android:id="@+id/horizontal_pos_number" style="@style/third_layout2_text_val_style" />
+            </LinearLayout>
+            <LinearLayout style="@style/third_layout_segmentation_style" />
+            <LinearLayout android:id="@+id/linearlayout_picture_geometricadjust_vertical_pos" style="@style/third_layout2_item_style">
+                <TextView android:text="@string/str_mainmenu_picture_geometricadjust_vertical_pos" style="@style/third_layout2_text_style" />
+                <SeekBar android:id="@+id/vertical_pos_seekbar" style="@style/third_layout2_seekbar_style" />
+                <TextView android:id="@+id/vertical_pos_number" style="@style/third_layout2_text_val_style" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

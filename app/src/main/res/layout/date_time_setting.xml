@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center" >
+
+    <LinearLayout
+        android:layout_width="550dip"
+        android:layout_height="400dip"
+        android:background="@drawable/set_bg"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
+
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/date_time_setting"
+                android:textColor="#FFFFFFFF"
+                android:textSize="28sp"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/line" >
+            </ImageView>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="340dip"
+            android:orientation="vertical"
+            android:paddingTop="10dip" >
+
+            <include layout="@layout/auto_date_time" />
+
+            <include layout="@layout/date" />
+
+            <include layout="@layout/time" />
+
+            <include layout="@layout/timezone" />
+
+            <include layout="@layout/date_time_24hour" />
+
+            <include layout="@layout/date_format" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

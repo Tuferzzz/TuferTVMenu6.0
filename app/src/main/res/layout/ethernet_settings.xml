@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+       android:id="@+id/ethernet_setting_lls"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:visibility="gone" >
+
+
+    <RelativeLayout
+        android:id="@+id/ethernet_dev_switch_rls"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/x40dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/x35dp"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/x30dp"
+            android:text="@string/wire_connect"
+            android:textColor="#CCCCCC"
+            android:textSize="@dimen/sp22" />
+
+        <CheckBox
+            android:id="@+id/ethernet_dev_switch_checkboxs"
+            android:layout_width="@dimen/x120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x5dp"
+            android:button="@drawable/custom_checkbox"
+            android:clickable="false"
+            android:checked="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ethernet_switch_rls"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/x40dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/x35dp"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/x30dp"
+            android:text="@string/ethernet_ip_set"
+            android:textColor="#CCCCCC"
+            android:textSize="@dimen/sp22" />
+
+        <CheckBox
+            android:id="@+id/ethernet_switch_checkboxs"
+            android:layout_width="@dimen/x120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x5dp"
+            android:button="@drawable/custom_checkbox"
+            android:checked="false" />
+    </RelativeLayout>
+  <LinearLayout
+        android:id="@+id/ethernet_toggle_layouts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    
+        <RelativeLayout
+            android:id="@+id/ethernet_auto_ip_layouts"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/x40dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/x35dp"
+                android:layout_centerVertical="true"
+                android:paddingLeft="@dimen/x30dp"
+                android:text="@string/auto_DHCP"
+                android:textColor="#CCCCCC"
+                android:textSize="@dimen/sp22" />
+
+            <CheckBox
+                android:id="@+id/ethernet_auto_ips"
+                android:layout_width="@dimen/x120dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x5dp"
+                android:button="@drawable/custom_checkbox" />
+        </RelativeLayout>
+    
+        <RelativeLayout
+            android:id="@+id/ethernet_ipv6_layouts"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/x40dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/x35dp"
+                android:layout_centerVertical="true"
+                android:paddingLeft="@dimen/x30dp"
+                android:text="@string/auto_static"
+                android:textColor="#CCCCCC"
+                android:textSize="@dimen/sp22" />
+
+            <CheckBox
+                android:id="@+id/ethernet_ipv6s"
+                android:layout_width="@dimen/x120dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x5dp"
+                android:button="@drawable/custom_checkbox" />
+        </RelativeLayout>
+          <LinearLayout
+            android:id="@+id/ethernet_ip_lls"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+    <RelativeLayout
+        android:id="@+id/ip_address_rls"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/x40dp" >
+
+        <TextView
+            android:layout_width="@dimen/x200dp"
+            android:layout_height="@dimen/x35dp"
+            android:paddingLeft="@dimen/x30dp"
+            android:text="@string/ip_address"
+            android:textColor="#CCCCCC"
+            android:textSize="@dimen/sp22" />
+
+        <EditText
+            android:id="@+id/ethernet_v6_ips"
+            android:layout_width="@dimen/x300dp"
+            android:layout_height="@dimen/x35dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x40dp"
+            android:background="@drawable/edit_text_large"
+            android:gravity="center"
+            android:imeOptions="actionDone|flagNoExtractUi|flagNoFullscreen"
+            android:maxLength="39"
+            android:singleLine="true"
+            android:textCursorDrawable="@drawable/cursor" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/subnet_mask_rls"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/x40dp" >
+
+        <TextView
+            android:layout_width="@dimen/x200dp"
+            android:layout_height="@dimen/x35dp"
+            android:paddingLeft="@dimen/x30dp"
+            android:text="@string/ipv6_netmask"
+            android:textColor="#CCCCCC"
+            android:textSize="@dimen/sp22" />
+
+        <EditText
+            android:id="@+id/ethernet_v6_subnets"
+            android:layout_width="@dimen/x300dp"
+            android:layout_height="@dimen/x35dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x40dp"
+            android:background="@drawable/edit_text_large"
+            android:gravity="center"
+            android:imeOptions="actionDone|flagNoExtractUi|flagNoFullscreen"
+            android:maxLength="2"
+            android:numeric="integer"
+            android:singleLine="true"
+            android:textCursorDrawable="@drawable/cursor" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/default_gateway_rls"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/x40dp" >
+
+        <TextView
+            android:layout_width="@dimen/x200dp"
+            android:layout_height="@dimen/x35dp"
+            android:paddingLeft="@dimen/x30dp"
+            android:text="@string/default_geteway"
+            android:textColor="#CCCCCC"
+            android:textSize="@dimen/sp22" />
+
+        <EditText
+            android:id="@+id/ethernet_v6_gateways"
+            android:layout_width="@dimen/x300dp"
+            android:layout_height="@dimen/x35dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x40dp"
+            android:background="@drawable/edit_text_large"
+            android:gravity="center"
+            android:imeOptions="actionDone|flagNoExtractUi|flagNoFullscreen"
+            android:maxLength="39"
+            android:singleLine="true"
+            android:textCursorDrawable="@drawable/cursor" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/first_dns_rls"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/x40dp" >
+
+        <TextView
+            android:layout_width="@dimen/x200dp"
+            android:layout_height="@dimen/x35dp"
+            android:paddingLeft="@dimen/x30dp"
+            android:text="@string/first_dns"
+            android:textColor="#CCCCCC"
+            android:textSize="@dimen/sp22" />
+
+        <EditText
+            android:id="@+id/ethernet_v6_firsts"
+            android:layout_width="@dimen/x300dp"
+            android:layout_height="@dimen/x35dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x40dp"
+            android:background="@drawable/edit_text_large"
+            android:gravity="center"
+            android:imeOptions="actionDone|flagNoExtractUi|flagNoFullscreen"
+            android:maxLength="39"
+            android:singleLine="true"
+            android:textCursorDrawable="@drawable/cursor" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/second_dns_rls"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/x40dp" >
+
+        <TextView
+            android:layout_width="@dimen/x200dp"
+            android:layout_height="@dimen/x35dp"
+            android:paddingLeft="@dimen/x30dp"
+            android:text="@string/second_dns"
+            android:textColor="#CCCCCC"
+            android:textSize="@dimen/sp22" />
+
+        <EditText
+            android:id="@+id/ethernet_v6_seconds"
+            android:layout_width="@dimen/x300dp"
+            android:layout_height="@dimen/x35dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x40dp"
+            android:background="@drawable/edit_text_large"
+            android:gravity="center"
+            android:imeOptions="actionDone|flagNoExtractUi|flagNoFullscreen"
+            android:maxLength="39"
+            android:singleLine="true"
+            android:textCursorDrawable="@drawable/cursor" />
+    </RelativeLayout>
+  
+        <LinearLayout
+            android:id="@+id/save_cancel_layouts"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x10dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/ethernet_ip_save_btns"
+                android:layout_width="@dimen/x80dp"
+                android:layout_height="@dimen/x35dp"
+                android:layout_marginRight="@dimen/x200dp"
+               android:background="@drawable/edit_text" 
+                android:textColor="#ffffffff"
+                android:text="@string/save"
+                android:textSize="@dimen/sp18" />
+
+            <Button
+                android:id="@+id/ethernet_ip_cancel_btns"
+                android:layout_width="@dimen/x80dp"
+                android:layout_height="@dimen/x35dp"
+                android:background="@drawable/edit_text" 
+                android:textColor="#ffffffff"
+                android:text="@string/cancle"
+                android:textSize="@dimen/sp18" />
+        </LinearLayout>
+        
+    </LinearLayout>
+           </LinearLayout>
+</LinearLayout>
