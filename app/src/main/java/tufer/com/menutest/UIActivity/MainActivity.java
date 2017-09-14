@@ -898,7 +898,7 @@ public class MainActivity extends Activity  {
             if(i==-4){
                 return flag;
             }else if(i==4){
-                return flag;
+                return len;
             }
         }else if(flag-4>=0&&flag+4>len){
             if(i==-4){
