@@ -3017,4 +3017,6 @@
 
     <string name="kernelVersion">Kernel Version</string>
     <string name="buildVersion">Build Number</string>
+
+   <string name="set_local_name">Modify local name successfully!</string>
 </resources>
