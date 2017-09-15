@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package tufer.com.menutest.UIActivity.about.localname;
+package tufer.com.menutest.UIActivity.about;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;

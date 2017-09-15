@@ -2459,4 +2459,6 @@ apps.</string>
     <string name="kernelVersion">内核版本</string>
     <string name="buildVersion">版本号</string>
 
+    <string name="set_local_name">修改本地名称成功!</string>
+
 </resources>
