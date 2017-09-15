@@ -186,6 +186,15 @@
             android:launchMode="singleTask"/>
         <activity android:name=".UIActivity.about.DeviceInfoSettings"
             android:launchMode="singleTask"/>
+        <activity
+            android:name=".UIActivity.about.localname.DeviceNameSettingsActivity"
+            android:configChanges="keyboardHidden|navigation"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.settings.DEVICE_NAME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".UIActivity.about.SystemRestoreFactoryActivity"
             android:launchMode="singleTask"/>
         <activity android:name=".UIActivity.update.SystemLocalUpdateActivity"

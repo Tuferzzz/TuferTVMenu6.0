@@ -58,6 +58,7 @@ import tufer.com.menutest.R;
 import tufer.com.menutest.UIActivity.about.DeviceInfoSettings;
 import tufer.com.menutest.UIActivity.about.SystemInfoActivity;
 import tufer.com.menutest.UIActivity.about.SystemRestoreFactoryActivity;
+import tufer.com.menutest.UIActivity.about.localname.DeviceNameSettingsActivity;
 import tufer.com.menutest.UIActivity.network.bluetooth.BluetoothActivity;
 import tufer.com.menutest.UIActivity.channel.ChannelActivity;
 import tufer.com.menutest.UIActivity.channel.ProgramListViewActivity;
@@ -1207,7 +1208,9 @@ public class MainActivity extends Activity  {
                             Toast.makeText(this, getString(R.string.str_function_not_open),Toast.LENGTH_SHORT).show();
                             break;
                         case 2:
-                            inputTitleDialog();
+                            //inputTitleDialog();
+                            intent=new Intent(MainActivity.this, DeviceNameSettingsActivity.class);
+                            startActivity(intent);
                             break;
                         case 3:
                             intent=new Intent(MainActivity.this, SystemRestoreFactoryActivity.class);
