@@ -18,14 +18,19 @@ package tufer.com.menutest.UIActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
+import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 
 import android.graphics.Color;
 
 import android.media.AudioManager;
+import android.net.ConnectivityManager;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -108,7 +113,7 @@ public class MainActivity extends Activity  {
     private static final String PROPERTY_TVPLAYER_STATUS = "persist.sys.istvplayer";
     private int menuDisplayTime=0;
     private LinearLayout MainMenu;
-    MainMenuViewHolder mainMenuViewHolder;
+    public MainMenuViewHolder mainMenuViewHolder;
     protected TvAudioManager tvAudioManager;
     protected TvPictureManager mTvPictureManager ;
     protected TvCommonManager mTvCommonManager;
@@ -132,9 +137,9 @@ public class MainActivity extends Activity  {
     public static int pictruePosition;
     protected int volume;
     protected static boolean isMute=false;
-    public static boolean isWifiHotspotOn=false;
-    public static boolean isWifiOn=false;
-    public static boolean isBuletoothOn=false;
+//    public static boolean isWifiHotspotOn=false;
+//    public static boolean isWifiOn=false;
+//    public static boolean isBuletoothOn=false;
     protected boolean isIntelligence=false;
 
     public Handler handler=new Handler(){
@@ -177,7 +182,16 @@ public class MainActivity extends Activity  {
         mainMenuViewHolder=new MainMenuViewHolder(MainActivity.this);
         addView();
         initView();
+        registerReceiver();
 
+    }
+
+    private void registerReceiver() {
+        IntentFilter mIntentFilter=new IntentFilter();
+        mIntentFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
+        mIntentFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+        mIntentFilter.addAction(WifiManager.WIFI_AP_STATE_CHANGED_ACTION);
+        registerReceiver(mReceiver, mIntentFilter);
     }
 
     @Override
@@ -186,6 +200,12 @@ public class MainActivity extends Activity  {
         setMenuDisPlayTime();
         sourceInTvFocus();
         super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(mReceiver);
+        super.onDestroy();
     }
 
     private void setMenuDisPlayTime() {
@@ -703,12 +723,12 @@ public class MainActivity extends Activity  {
     }
 
     private void initNetworkCallback() {
-        mainMenuViewHolder.wifi_val.setText(isWifiOn?getString(R.string.str_mainmenu_default_switch_on):
-                getString(R.string.str_mainmenu_default_switch_off));
-        mainMenuViewHolder.wifihotspot_val.setText(isWifiHotspotOn?getString(R.string.str_mainmenu_default_switch_on):
-                getString(R.string.str_mainmenu_default_switch_off));
-        mainMenuViewHolder.bluetooth_val.setText(isBuletoothOn?getString(R.string.str_mainmenu_default_switch_on):
-                getString(R.string.str_mainmenu_default_switch_off));
+//        mainMenuViewHolder.wifi_val.setText(isWifiOn?getString(R.string.str_mainmenu_default_switch_on):
+//                getString(R.string.str_mainmenu_default_switch_off));
+//        mainMenuViewHolder.wifihotspot_val.setText(isWifiHotspotOn?getString(R.string.str_mainmenu_default_switch_on):
+//                getString(R.string.str_mainmenu_default_switch_off));
+//        mainMenuViewHolder.bluetooth_val.setText(isBuletoothOn?getString(R.string.str_mainmenu_default_switch_on):
+//                getString(R.string.str_mainmenu_default_switch_off));
     }
 
     private void initSystemCallback() {
@@ -1238,4 +1258,97 @@ public class MainActivity extends Activity  {
             }
         }
     }
+    private BroadcastReceiver mReceiver =new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(action)){
+                int blueState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);
+                switch(blueState){
+                    case BluetoothAdapter.STATE_TURNING_ON:
+//                    LogUtil.e("onReceive---------STATE_TURNING_ON");
+                        break;
+                    case BluetoothAdapter.STATE_ON:
+//                    LogUtil.e("onReceive---------STATE_ON");
+                        MainActivity.myMainActivity.mainMenuViewHolder.bluetooth_val.
+                                setText(MainActivity.myMainActivity.getString(R.string.str_mainmenu_default_switch_on));
+                        break;
+                    case BluetoothAdapter.STATE_TURNING_OFF:
+//                    LogUtil.e("onReceive---------STATE_TURNING_OFF");
+//                    BleUtil.toReset(mContext);
+                        break;
+                    case BluetoothAdapter.STATE_OFF:
+//                    LogUtil.e("onReceive---------STATE_OFF");
+//                    BleUtil.toReset(mContext);
+                        MainActivity.myMainActivity.mainMenuViewHolder.bluetooth_val.
+                                setText(MainActivity.myMainActivity.getString(R.string.str_mainmenu_default_switch_off));
+                        break;
+                }
+            }else  if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(action)){
+                int wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,
+                        WifiManager.WIFI_STATE_UNKNOWN);
+                switch(wifiState){
+                    case WifiManager.WIFI_STATE_ENABLED:
+                        //MainActivity.isWifiOn=true;
+                        //mScanner.resume();
+                        MainActivity.myMainActivity.mainMenuViewHolder.wifi_val.
+                                setText(MainActivity.myMainActivity.getString(R.string.str_mainmenu_default_switch_on));
+                        return; // not break, to avoid the call to pause() below
+                    case WifiManager.WIFI_STATE_ENABLING:
+                        // addMessagePreference(R.string.wifi_starting);
+                        break;
+                    case WifiManager.WIFI_STATE_DISABLING:
+                    case WifiManager.WIFI_STATE_DISABLED:
+//                    MainActivity.isWifiOn=false;
+//                    // addMessagePreference(R.string.wifi_empty_list_wifi_off);
+//                    if (mAdapter != null) {
+//                        mAdapter.updateConnectedSsid("", false);
+//                    }
+                        MainActivity.myMainActivity.mainMenuViewHolder.wifi_val.
+                                setText(MainActivity.myMainActivity.getString(R.string.str_mainmenu_default_switch_off));
+                        break;
+                }
+            }else if (WifiManager.WIFI_AP_STATE_CHANGED_ACTION.equals(action)) {
+                //CheckBox checkBox = mWifiApSettingsHolder.getWifiApToggleCheckBox();
+                int state = intent.getIntExtra(WifiManager.EXTRA_WIFI_AP_STATE,
+                        WifiManager.WIFI_AP_STATE_FAILED);
+                switch (state) {
+                    case WifiManager.WIFI_AP_STATE_ENABLING:
+//                    Log.d(TAG, "WIFI_AP_STATE_ENABLING");
+//                    checkBox.setEnabled(false);
+//                    MainActivity.isWifiHotspotOn=false;
+                        break;
+                    case WifiManager.WIFI_AP_STATE_ENABLED:
+                        // on enable is handled by tether broadcast notice
+//                    Log.d(TAG, "WIFI_AP_STATE_ENABLED");
+//                    checkBox.setChecked(true);
+//                    // Doesnt need the airplane check
+//                    checkBox.setEnabled(true);
+//                    MainActivity.isWifiHotspotOn=true;
+                        MainActivity.myMainActivity.mainMenuViewHolder.wifihotspot_val.
+                                setText(MainActivity.myMainActivity.getString(R.string.str_mainmenu_default_switch_on));
+                        break;
+                    case WifiManager.WIFI_AP_STATE_DISABLING:
+//                    Log.d(TAG, "WIFI_AP_STATE_DISABLING");
+//                    checkBox.setEnabled(false);
+//                    MainActivity.isWifiHotspotOn=false;
+//                    mWifiApSettingsHolder.refreshWifiApInfo(null);
+                        break;
+                    case WifiManager.WIFI_AP_STATE_DISABLED:
+//                    Log.d(TAG, "WIFI_AP_STATE_DISABLED");
+//                    checkBox.setEnabled(true);
+//                    MainActivity.isWifiHotspotOn=true;
+//                    checkBox.setChecked(false);
+                        MainActivity.myMainActivity.mainMenuViewHolder.wifihotspot_val.
+                                setText(MainActivity.myMainActivity.getString(R.string.str_mainmenu_default_switch_off));
+                        break;
+                    default:
+//                    checkBox.setChecked(false);
+                        break;
+                }
+            }
+        }
+    };
 }
+
+

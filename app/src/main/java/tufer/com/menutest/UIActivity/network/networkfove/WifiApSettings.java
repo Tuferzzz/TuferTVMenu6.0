@@ -419,7 +419,7 @@ public class WifiApSettings extends NetworkSettings implements INetworkSettingsL
                     case WifiManager.WIFI_AP_STATE_ENABLING:
                         Log.d(TAG, "WIFI_AP_STATE_ENABLING");
                         checkBox.setEnabled(false);
-                        MainActivity.isWifiHotspotOn=false;
+                        //MainActivity.isWifiHotspotOn=false;
                         break;
                     case WifiManager.WIFI_AP_STATE_ENABLED:
                         // on enable is handled by tether broadcast notice
@@ -427,18 +427,18 @@ public class WifiApSettings extends NetworkSettings implements INetworkSettingsL
                         checkBox.setChecked(true);
                         // Doesnt need the airplane check
                         checkBox.setEnabled(true);
-                        MainActivity.isWifiHotspotOn=true;
+                        //MainActivity.isWifiHotspotOn=true;
                         break;
                     case WifiManager.WIFI_AP_STATE_DISABLING:
                         Log.d(TAG, "WIFI_AP_STATE_DISABLING");
                         checkBox.setEnabled(false);
-                        MainActivity.isWifiHotspotOn=false;
+                        //MainActivity.isWifiHotspotOn=false;
                         mWifiApSettingsHolder.refreshWifiApInfo(null);
                         break;
                     case WifiManager.WIFI_AP_STATE_DISABLED:
                         Log.d(TAG, "WIFI_AP_STATE_DISABLED");
                         checkBox.setEnabled(true);
-                        MainActivity.isWifiHotspotOn=true;
+                        //MainActivity.isWifiHotspotOn=true;
                         checkBox.setChecked(false);
                         break;
                     default:
@@ -484,11 +484,11 @@ public class WifiApSettings extends NetworkSettings implements INetworkSettingsL
             if (!hasReady()) {
                 Tools.logd(TAG, "wifiap have not ready.");
                 buttonView.setChecked(false);
-				MainActivity.isWifiHotspotOn=false;
+				//MainActivity.isWifiHotspotOn=false;
                 return;
             }
             Tools.logd(TAG, "wifiap has ready.");
-			MainActivity.isWifiHotspotOn=true;
+			//MainActivity.isWifiHotspotOn=true;
             setSoftApEnabled(isChecked);
         }
     };

@@ -344,7 +344,7 @@ public class WifiSettings extends NetworkSettings implements INetworkSettingsLis
     private void updateWifiState(int state) {
         switch (state) {
             case WifiManager.WIFI_STATE_ENABLED:
-                MainActivity.isWifiOn=true;
+                //MainActivity.isWifiOn=true;
                 mScanner.resume();
                 return; // not break, to avoid the call to pause() below
             case WifiManager.WIFI_STATE_ENABLING:
@@ -352,7 +352,7 @@ public class WifiSettings extends NetworkSettings implements INetworkSettingsLis
                 break;
             case WifiManager.WIFI_STATE_DISABLING:
             case WifiManager.WIFI_STATE_DISABLED:
-                MainActivity.isWifiOn=false;
+                //MainActivity.isWifiOn=false;
                 // addMessagePreference(R.string.wifi_empty_list_wifi_off);
                 if (mAdapter != null) {
                     mAdapter.updateConnectedSsid("", false);
@@ -476,7 +476,7 @@ public class WifiSettings extends NetworkSettings implements INetworkSettingsLis
                     if (!MWifiManager.getInstance().isWifiDeviceExist()) {
                         showToast(R.string.please_insert_dongle);
                         checkBox.setChecked(false);
-                        MainActivity.isWifiOn=false;
+                        //MainActivity.isWifiOn=false;
                         return;
                     }
 
@@ -493,13 +493,13 @@ public class WifiSettings extends NetworkSettings implements INetworkSettingsLis
                     if (mWifiManager.isWifiApEnabled()) {
                         showToast(R.string.close_wifiap_txt);
                         checkBox.setChecked(false);
-                        MainActivity.isWifiOn=false;
+                        //MainActivity.isWifiOn=false;
                         return;
                     }
 
                     // open wifi
                     toggleNetwork(checkBox.isChecked());
-                    MainActivity.isWifiOn=true;
+                    //MainActivity.isWifiOn=true;
                 }
             }
         });

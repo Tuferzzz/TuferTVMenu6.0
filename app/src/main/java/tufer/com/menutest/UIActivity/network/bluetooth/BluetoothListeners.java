@@ -165,7 +165,7 @@ public class BluetoothListeners {
                                                             .setVisibility(View.GONE);
                                                     bluetoothViewHolder.bluetooth_button
                                                             .setEnabled(true);
-                                                    MainActivity.isBuletoothOn=false;
+                                                    //MainActivity.isBuletoothOn=false;
                                                 }
                                             });
                                             bluetoothActivity.mAdapter.disable();
@@ -184,7 +184,7 @@ public class BluetoothListeners {
                                                     .setBackgroundResource(R.drawable.open);
                                             bluetoothActivity.bluetooth_state = 1;
                                             bluetoothActivity.setText();
-                                            MainActivity.isBuletoothOn=true;
+                                            //MainActivity.isBuletoothOn=true;
                                         }
                                     });
                                 }
@@ -195,13 +195,13 @@ public class BluetoothListeners {
                             bluetoothActivity.bluetooth_state = 0;
                             bluetoothViewHolder.bluetooth_button_image
                                     .setBackgroundResource(R.drawable.close);
-                            MainActivity.isBuletoothOn=false;
+                            //MainActivity.isBuletoothOn=false;
                         } else {
                             Toast.makeText(
                                     bluetoothActivity,
                                     bluetoothActivity.getResources().getString(
                                             R.string.no_bluetooth_device), 1).show();
-                            MainActivity.isBuletoothOn=false;
+                            //MainActivity.isBuletoothOn=false;
                         }
                     }
                 });
