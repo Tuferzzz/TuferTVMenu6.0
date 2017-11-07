@@ -94,6 +94,7 @@ import tufer.com.menutest.R;
 import tufer.com.menutest.Util.TvIntent;
 import tufer.com.menutest.UIActivity.holder.ViewHolder;
 import tufer.com.menutest.UIActivity.channel.ChannelActivity;
+import tufer.com.menutest.UIActivity.channel.preinstallprogram.ExportProgramInfo;
 
 public class ExitTuningInfoDialog extends Dialog {
     private static final String TAG = "ExitTuningInfoDialog";
@@ -114,6 +115,9 @@ public class ExitTuningInfoDialog extends Dialog {
 
     TvChannelManager mTvChannelManager = null;
 
+    /* Ada Android Patch Begin For export channel tianky@20161023 */
+    private ExportProgramInfo mExportProgramInfo;
+
     @SuppressWarnings("unused")
     private ViewHolder viewholder_channeltune;
 
@@ -131,6 +135,9 @@ public class ExitTuningInfoDialog extends Dialog {
         textview_cha_exittune_yes.requestFocus();
         registerListeners();
         mTvChannelManager = TvChannelManager.getInstance();
+        /* Ada Android Patch Begin For export channel tianky@20161023 */
+        mExportProgramInfo =new ExportProgramInfo();
+        /*Ada Android Patch End */
     }
 
     private void registerListeners() {
@@ -183,6 +190,9 @@ public class ExitTuningInfoDialog extends Dialog {
                         getContext().startActivity(intent);
                     }
                     this.dismiss();
+                    /* Ada Android Patch Begin For export channel tianky@20161023 */
+                    mExportProgramInfo.exprotATVProgramInfoToLocal();
+                    /*Ada Android Patch End */
                     break;
                 case TvChannelManager.TUNING_STATUS_DTV_SCAN_PAUSING:
                     mTvChannelManager.stopDtvScan();
@@ -216,6 +226,9 @@ public class ExitTuningInfoDialog extends Dialog {
                         }
                     }
                     this.dismiss();
+                    /* Ada Android Patch Begin For export channel tianky@20161023 */
+                    mExportProgramInfo.exprotATVProgramInfoToLocal();
+                    /*Ada Android Patch End */
                     break;
                 default:
                     break;

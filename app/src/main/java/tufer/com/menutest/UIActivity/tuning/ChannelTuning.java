@@ -126,6 +126,7 @@ import tufer.com.menutest.Util.Utility;
 import tufer.com.menutest.Util.Constant;
 
 import java.util.ArrayList;
+import tufer.com.menutest.UIActivity.channel.preinstallprogram.ExportProgramInfo;
 
 public class ChannelTuning extends MstarBaseActivity {
     /** Called when the activity is first created. */
@@ -507,7 +508,7 @@ public class ChannelTuning extends MstarBaseActivity {
                 if (curTime.after(scanStartTime)) {
                     if ((curTime.toMillis(true) - scanStartTime.toMillis(true)) < 2000) {
                         Toast toast = Toast.makeText(ChannelTuning.this,
-                                "Wait for a moment please!", 1);
+                                "Wait for a moment please!", Toast.LENGTH_SHORT);
                         toast.show();
                         return false;
                     }
@@ -568,6 +569,10 @@ public class ChannelTuning extends MstarBaseActivity {
 
     private void channetuningActivityExit() {
         Log.e(TAG, "channetuningActivityExit");
+        /* Ada Android Patch Begin For export channel tianky@20161023 */
+        ExportProgramInfo mExportProgramInfo=new ExportProgramInfo();
+        mExportProgramInfo.exprotATVProgramInfoToLocal();
+        /*Ada Android Patch End */
         Intent intent = new Intent(TvIntent.MAINMENU);
         intent.putExtra("currentPage", ChannelActivity.CHANNEL_PAGE);
         if (intent.resolveActivity(getPackageManager()) != null) {

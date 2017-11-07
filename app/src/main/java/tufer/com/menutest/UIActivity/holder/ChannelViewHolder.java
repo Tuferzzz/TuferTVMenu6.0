@@ -121,6 +121,7 @@ import tufer.com.menutest.R;
 import tufer.com.menutest.UIActivity.MainActivity;
 import tufer.com.menutest.UIActivity.ca.CaActivity;
 import tufer.com.menutest.UIActivity.channel.ProgramListViewActivity;
+import tufer.com.menutest.UIActivity.channel.PreinstallProgramTableActivity;
 import tufer.com.menutest.UIActivity.channel.LNBSettingActivity;
 import tufer.com.menutest.UIActivity.component.CycleScrollView;
 import tufer.com.menutest.UIActivity.dtv.CimmiActivity;
@@ -190,6 +191,8 @@ public class ChannelViewHolder {
     protected LinearLayout linear_cha_dvbs_lnbsetting;
 
     //protected LinearLayout linear_cha_programedit;
+
+    protected LinearLayout linear_cha_preinstalltable;
 
     protected LinearLayout linear_cha_ciinformation;
 
@@ -263,6 +266,8 @@ public class ChannelViewHolder {
                 .findViewById(R.id.linearlayout_cha_dvbs_lnbsetting);
 //        linear_cha_programedit = (LinearLayout) mChannelActivity
 //                .findViewById(R.id.linearlayout_cha_programedit);
+        linear_cha_preinstalltable = (LinearLayout) mChannelActivity
+                .findViewById(R.id.linearlayout_cha_preinstalltable);
         linear_cha_ciinformation = (LinearLayout) mChannelActivity
                 .findViewById(R.id.linearlayout_cha_ciinformation);
         linear_cha_cainformation = (LinearLayout) mChannelActivity
@@ -323,6 +328,7 @@ public class ChannelViewHolder {
             enableSingleItemOrNot(linear_cha_dtvmanualtuning, true);
             enableSingleItemOrNot(linear_cha_ciinformation, true);
             enableSingleItemOrNot(linear_cha_cainformation, true);
+            enableSingleItemOrNot(linear_cha_preinstalltable, false);
 
             if (0 >= TvChannelManager.getInstance().getProgramCount(
                     TvChannelManager.PROGRAM_COUNT_DTV)) {
@@ -650,6 +656,7 @@ public class ChannelViewHolder {
                     case R.id.linearlayout_cha_dtvmanualtuning:
                     case R.id.linearlayout_cha_atvmanualtuning:
                     //case R.id.linearlayout_cha_programedit:
+                    case R.id.linearlayout_cha_preinstalltable:
                     case R.id.linearlayout_cha_ciinformation:
                     case R.id.linearlayout_cha_cainformation:
                     case R.id.linearlayout_cha_signalinfo:
@@ -748,6 +755,7 @@ public class ChannelViewHolder {
                     case R.id.linearlayout_cha_dtvmanualtuning:
                     case R.id.linearlayout_cha_atvmanualtuning:
                     //case R.id.linearlayout_cha_programedit:
+                    case R.id.linearlayout_cha_preinstalltable:
                     case R.id.linearlayout_cha_ciinformation:
                     case R.id.linearlayout_cha_cainformation:
                     case R.id.linearlayout_cha_signalinfo:
@@ -893,6 +901,11 @@ public class ChannelViewHolder {
 //                        mChannelActivity.startActivity(mIntent);
 //                        mChannelActivity.finish();
 //                        break;
+                    case R.id.linearlayout_cha_preinstalltable:
+                        mIntent.setClass(mChannelActivity, PreinstallProgramTableActivity.class);
+                        mChannelActivity.startActivity(mIntent);
+                        mChannelActivity.finish();
+                        break;
                     case R.id.linearlayout_cha_signalinfo:
                         mIntent.setClass(mChannelActivity, SignalInfoActivity.class);
                         mChannelActivity.startActivity(mIntent);
@@ -974,6 +987,7 @@ public class ChannelViewHolder {
         linear_cha_atvmanualtuning.setOnClickListener(listener);
         linear_cha_dvbs_lnbsetting.setOnClickListener(listener);
         //linear_cha_programedit.setOnClickListener(listener);
+        linear_cha_preinstalltable.setOnClickListener(listener);
         linear_cha_ciinformation.setOnClickListener(listener);
         linear_cha_cainformation.setOnClickListener(listener);
         linear_cha_signalinfo.setOnClickListener(listener);

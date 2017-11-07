@@ -335,6 +335,27 @@
                     <!--android:layout_marginLeft="27dp" />-->
             <!--</LinearLayout>-->
 
+            <!-- For Preinstall Program Table -->
+            <LinearLayout
+                android:id="@+id/linearlayout_cha_preinstalltable"
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="33dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:background="@drawable/button_state" >
+
+                <TextView
+                    android:id="@+id/textview_cha_preinstalltable"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="left|center_vertical"
+                    android:text="@string/str_cha_preinstalltable"
+                    android:textColor="#ffffff"
+                    android:textSize="15dp"
+                    android:layout_marginLeft="27dp" />
+            </LinearLayout>
+
             <!-- For Signal Informaiton -->
             <LinearLayout
                 android:id="@+id/linearlayout_cha_signalinfo"

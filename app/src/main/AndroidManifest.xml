@@ -100,6 +100,8 @@
     <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_STORAGE" />
 
 
 
@@ -124,10 +126,9 @@
             android:icon="@drawable/tv_menu_logo"
             android:label="@string/app_name"
 			android:hardwareAccelerated="true"
-            android:launchMode="singleTask"
+            android:launchMode="singleInstance"
             android:logo="@drawable/tv_menu_logo"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateHidden|stateUnchanged">
 
             <intent-filter>
@@ -172,6 +173,8 @@
         <activity android:name=".UIActivity.pictrue.SetLightActivity"
             android:launchMode="singleTask"/>
         <activity android:name=".UIActivity.sound.EqualizerActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".UIActivity.sound.SetSoundMaxActivity"
             android:launchMode="singleTask"/>
 
         <activity android:name=".UIActivity.intelligence.SetTimeOffDialogActivity"
@@ -401,6 +404,15 @@
         <activity
             android:name="tufer.com.menutest.UIActivity.channel.ChannelListActivity"
             android:launchMode="singleTask">
+        </activity>
+        <activity
+            android:name="tufer.com.menutest.UIActivity.channel.AdaChannelListActivity"
+            android:launchMode="singleTask"
+            >
+            <intent-filter>
+                <action android:name="com.mstar.tvsetting.ui.intent.action.AdaChannelListActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="com.mstar.tv.tvplayer.ui.intent.action.CHANNEL_LIST" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -415,15 +427,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="tufer.com.menutest.UIActivity.channel.AdaChannelListActivity"
-            android:launchMode="singleTask"
-            >
-            <intent-filter>
-                <action android:name="com.mstar.tvsetting.ui.intent.action.AdaChannelListActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name="tufer.com.menutest.UIActivity.channel.LNBSettingActivity"
             android:launchMode="singleTask"
             >
@@ -432,6 +435,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="tufer.com.menutest.UIActivity.channel.PreinstallProgramTableActivity"
+            android:launchMode="singleTask" />
 
         <!--dtv-->
         <activity

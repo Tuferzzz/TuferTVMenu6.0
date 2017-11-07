@@ -320,9 +320,14 @@ public class AppDetailInfoActivity extends Activity {
                 if(packageInfo ==null){
                     Toast.makeText(this, getString(R.string.str_no_app),Toast.LENGTH_SHORT).show();
                 }else{
-                    PackageManager manager = getPackageManager();
-                    Intent openApp = manager.getLaunchIntentForPackage(packageName);
-                    startActivity(openApp);
+                    try {
+                        Intent intent = this.getPackageManager().getLaunchIntentForPackage(
+                                packageName);
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        Toast.makeText(this, getString(R.string.str_no_app), Toast.LENGTH_LONG).show();
+                    }
+
                 }
                 break;
             case 1:

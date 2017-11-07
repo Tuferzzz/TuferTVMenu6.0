@@ -1104,7 +1104,7 @@
         <item>特大暴雨</item>
         <item>雾</item>
         <item>小雪</item>
-        <item>小雪转中雪</item>
+        <item>小到中雪</item>
         <item>小雨</item>
         <item>小到中雨</item>
         <item>扬沙</item>
@@ -1113,9 +1113,9 @@
         <item>阵雪</item>
         <item>阵雨</item>
         <item>中雪</item>
-        <item>中雪转大雪</item>
+        <item>中到大雪</item>
         <item>中雨</item>
-        <item>中雨转大雨</item>
+        <item>中到大雨</item>
     </string-array>
 
     <string-array name="wifi_p2p_status">

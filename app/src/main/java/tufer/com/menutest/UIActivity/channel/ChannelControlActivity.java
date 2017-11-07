@@ -383,6 +383,7 @@ public class ChannelControlActivity extends MstarBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "OnCreate");
         super.onCreate(savedInstanceState);
+        getWindow().getAttributes().gravity = Gravity.LEFT;
         setContentView(R.layout.channelcontrol);
 
         mTvChannelManager = TvChannelManager.getInstance();

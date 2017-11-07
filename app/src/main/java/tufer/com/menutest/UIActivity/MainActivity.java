@@ -18,14 +18,17 @@ package tufer.com.menutest.UIActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
+import android.app.Instrumentation;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 
 import android.media.AudioManager;
@@ -36,9 +39,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemProperties;
 
+import android.os.UserHandle;
 import android.provider.Settings;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -55,6 +60,8 @@ import com.mstar.android.tv.TvCommonManager;
 import com.mstar.android.tv.TvFactoryManager;
 import com.mstar.android.tv.TvPictureManager;
 import com.mstar.android.tv.TvTimerManager;
+import com.mstar.android.tvapi.common.TvManager;
+import com.mstar.android.tvapi.common.exception.TvCommonException;
 
 
 import java.util.regex.Matcher;
@@ -63,8 +70,9 @@ import java.util.regex.Pattern;
 import tufer.com.menutest.R;
 import tufer.com.menutest.UIActivity.about.DeviceInfoSettings;
 import tufer.com.menutest.UIActivity.about.DeviceManager;
-import tufer.com.menutest.UIActivity.about.SystemInfoActivity;
 import tufer.com.menutest.UIActivity.about.SystemRestoreFactoryActivity;
+import tufer.com.menutest.UIActivity.channel.AdaChannelListActivity;
+import tufer.com.menutest.UIActivity.channel.ChannelListActivity;
 import tufer.com.menutest.UIActivity.network.bluetooth.BluetoothActivity;
 import tufer.com.menutest.UIActivity.channel.ChannelActivity;
 import tufer.com.menutest.UIActivity.channel.ProgramListViewActivity;
@@ -79,12 +87,15 @@ import tufer.com.menutest.UIActivity.intelligence.SetTimeOnDialogActivity;
 import tufer.com.menutest.UIActivity.network.networkfove.NetworkSettingsActivity;
 import tufer.com.menutest.UIActivity.pictrue.SetLightActivity;
 import tufer.com.menutest.UIActivity.sound.EqualizerActivity;
+import tufer.com.menutest.UIActivity.sound.SetSoundMaxActivity;
 import tufer.com.menutest.UIActivity.system.InputMethodAndLanguageSettingsActivity;
 
 import tufer.com.menutest.UIActivity.system.city.CitySettingActivity;
 import tufer.com.menutest.UIActivity.update.SystemLocalUpdateActivity;
 import tufer.com.menutest.UIActivity.update.SystemNetUpdateActivity;
+import tufer.com.menutest.Util.MaxVolume;
 import tufer.com.menutest.Util.TVRootApp;
+import tufer.com.menutest.Util.Utility;
 
 
 import android.app.ActivityManager;
@@ -117,6 +128,7 @@ public class MainActivity extends Activity  {
     protected TvAudioManager tvAudioManager;
     protected TvPictureManager mTvPictureManager ;
     protected TvCommonManager mTvCommonManager;
+    protected TvFactoryManager mTvFactoryManager;
     protected AudioManager audio;
     private TVRootApp mTvRootApp;
     public static int[] intelligenceNameList={R.string.str_mainmenu_intelligence_identify,R.string.str_mainmenu_intelligence_childlock,
@@ -141,6 +153,18 @@ public class MainActivity extends Activity  {
 //    public static boolean isWifiOn=false;
 //    public static boolean isBuletoothOn=false;
     protected boolean isIntelligence=false;
+    private StringBuffer number=new StringBuffer("");
+
+    protected boolean isAuxiliaryOn=false;
+    protected boolean isxvYcc=false;
+    protected boolean isSoundSrs=false;
+    protected boolean isAvc=false;
+    protected boolean isSurround=false;
+    protected boolean isAutohoh=false;
+    protected boolean isIdentifyDetection=false;
+    protected boolean isNoSignalStandbyMode=false;
+    protected boolean isPowerOnMusicMode=false;
+    protected boolean isTemperaturemonitoring=false;
 
     public Handler handler=new Handler(){
         @Override
@@ -208,6 +232,9 @@ public class MainActivity extends Activity  {
         super.onDestroy();
     }
 
+    /**
+     * 设置菜单显示时间
+     */
     private void setMenuDisPlayTime() {
         SharedPreferences preferences=getSharedPreferences("TuferTvMenu", Context.MODE_PRIVATE);
         isMenuShow=preferences.getBoolean("isMenuShow", false);
@@ -253,6 +280,7 @@ public class MainActivity extends Activity  {
         audio=(AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
         mTvPictureManager = TvPictureManager.getInstance();
         mTvCommonManager = TvCommonManager.getInstance();
+        mTvFactoryManager = TvFactoryManager.getInstance();
         volume =audio.getStreamVolume( AudioManager.STREAM_SYSTEM );
         tvAudioManager=TvAudioManager.getInstance();
 
@@ -408,6 +436,11 @@ public class MainActivity extends Activity  {
         }
     }
 
+    /**
+     *设置控件文本变灰
+     * @param linearLayout 需要设置颜色的控件
+     * @param isEnable 是否变白
+     */
     protected void enableSingleItemOrNot(LinearLayout linearLayout, boolean isEnable) {
         if (!isEnable) {
             ((TextView) (linearLayout.getChildAt(1))).setTextColor(Color.GRAY);
@@ -436,10 +469,32 @@ public class MainActivity extends Activity  {
 //
     }
 
+    private void keyInjection(final int keyCode) {
+        if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN
+                || keyCode == KeyEvent.KEYCODE_DPAD_UP
+                || keyCode == KeyEvent.KEYCODE_DPAD_RIGHT
+                || keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+            new Thread() {
+                public void run() {
+                    try {
+                        Instrumentation inst = new Instrumentation();
+                        inst.sendKeyDownUpSync(keyCode);
+                    } catch (Exception e) {
+                        Log.e(TAG, e.toString());
+                    }
+                }
+            }.start();
+        }
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         downTime=System.currentTimeMillis();
+        String deviceName = InputDevice.getDevice(event.getDeviceId()).getName();
         switch (keyCode) {
+            case KeyEvent.KEYCODE_MENU:
+                finish();
+                return true;
             case KeyEvent.KEYCODE_DPAD_UP:
                 dropUp();
                 //Toast.makeText(this,"遥控上键："+posion+","+flag,Toast.LENGTH_SHORT).show();
@@ -459,8 +514,101 @@ public class MainActivity extends Activity  {
             case KeyEvent.KEYCODE_ENTER:
                 click();
                 break;
+            case KeyEvent.KEYCODE_CHANNEL_UP:
+                if(deviceName.equals("MStar Smart TV Keypad")){
+                    keyInjection(KeyEvent.KEYCODE_DPAD_UP);
+                }else if(deviceName.equals("MStar Smart TV IR Receiver")){
+                    return false;
+                }
+                return true;
+            case KeyEvent.KEYCODE_CHANNEL_DOWN:
+                if(deviceName.equals("MStar Smart TV Keypad")){
+                    keyInjection(KeyEvent.KEYCODE_DPAD_DOWN);
+                }else if(deviceName.equals("MStar Smart TV IR Receiver")){
+                    return false;
+                }
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                if(deviceName.equals("MStar Smart TV Keypad")){
+                    keyInjection(KeyEvent.KEYCODE_DPAD_RIGHT);
+                }else if(deviceName.equals("MStar Smart TV IR Receiver")){
+                    return false;
+                }
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                if(deviceName.equals("MStar Smart TV Keypad")){
+                    keyInjection(KeyEvent.KEYCODE_DPAD_LEFT);
+                }else if(deviceName.equals("MStar Smart TV IR Receiver")){
+                    return false;
+                }
+                return true;
+            case KeyEvent.KEYCODE_0:
+                number.append("0");
+                if(number.indexOf("2580")!=-1){
+                    Intent intent = new Intent(
+                            "mstar.tvsetting.factory.intent.action.MainmenuActivity");
+                    startActivity(intent);
+//                    PackageManager manager = getPackageManager();
+//                    Intent intent = manager.getLaunchIntentForPackage("mstar.factorymenu.ui");
+//                    startActivity(intent);
+                    number.delete(0,number.length());
+                }
+                break;
+            case KeyEvent.KEYCODE_1:
+                number.append("1");
+                break;
+            case KeyEvent.KEYCODE_2:
+                number.append("2");
+                break;
+            case KeyEvent.KEYCODE_4:
+                number.append("4");
+                break;
+            case KeyEvent.KEYCODE_5:
+                number.append("5");
+                break;
+            case KeyEvent.KEYCODE_7:
+                number.append("7");
+                if(number.indexOf("1477")!=-1){
+                    Intent intent = new Intent(
+                            "mstar.tvsetting.ui.intent.action.mainmenuActivity");
+                    startActivity(intent);
+                    number.delete(0,number.length());
+                }
+                break;
+            case KeyEvent.KEYCODE_8:
+                number.append("8");
+                break;
+            case KeyEvent.KEYCODE_3:
+                number.append("3");
+                break;
+            case KeyEvent.KEYCODE_6:
+                number.append("6");
+                break;
+            case KeyEvent.KEYCODE_9:
+                number.append("9");
+                if(number.indexOf("3699")!=-1){
+//                    Intent intent = new Intent(
+//                            "mstar.tvsetting.factory.intent.action.FactorymenuActivity");
+//                    startActivity(intent);
+//                    PackageManager manager = getPackageManager();
+//                    Intent intent = manager.getLaunchIntentForPackage("com.android.tv.settings");
+//                    startActivity(intent);
+                    ComponentName componentName = new ComponentName("com.android.tv.settings",
+                            "com.android.tv.settings.MainSettings");
+                    Intent intent=new Intent();
+                    intent.setComponent(componentName);
+                    startActivity(intent);
+                    number.delete(0,number.length());
+                }
+                break;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        System.exit(0);
+        super.onNewIntent(intent);
     }
 
     private void dropUp() {
@@ -732,8 +880,6 @@ public class MainActivity extends Activity  {
     }
 
     private void initSystemCallback() {
-        mainMenuViewHolder.powermusic_val.setText(TvFactoryManager.getInstance().getPowerOnMusicMode()!=0?
-                getString(R.string.str_mainmenu_default_switch_on):getString(R.string.str_mainmenu_default_switch_off));
         mainMenuViewHolder.location_val.setText(getSharedPreferences(
                 CitySettingActivity.SHARE_NAME, Context.MODE_PRIVATE).getString("cn_city_name", null));
     }
@@ -745,22 +891,18 @@ public class MainActivity extends Activity  {
     private void initSoundCallback() {
         mainMenuViewHolder.soundmode_val.setText(getResources().getStringArray(R.array.str_arr_sound_soundmode_vals)
                 [tvAudioManager.getAudioSoundMode()]);
-        mainMenuViewHolder.srs_val.setText(tvAudioManager.isSRSEnable()?R.string.str_mainmenu_default_switch_on:R.string.str_mainmenu_default_switch_off);
-        mainMenuViewHolder.avc_val.setText(tvAudioManager.getAvcMode()?
-                getString(R.string.str_mainmenu_default_switch_on):getString(R.string.str_mainmenu_default_switch_off));
-        mainMenuViewHolder.surround_val.setText(tvAudioManager.getAudioSurroundMode()==1?
-                getString(R.string.str_mainmenu_default_switch_on):getString(R.string.str_mainmenu_default_switch_off));
-        mainMenuViewHolder.autohoh_val.setText(tvAudioManager.getHOHStatus()?
-                getString(R.string.str_mainmenu_default_switch_on):getString(R.string.str_mainmenu_default_switch_off));
-
+        mainMenuViewHolder.max_val.setText(getResources().getString(R.string.str_mainmenu_default_sound_max));
+        //Ada Android Patch Begin add for limit max Volume tianky@20160831
+        MaxVolume mMaxVolume = new MaxVolume();
+        mainMenuViewHolder.max_val.setText(mMaxVolume.getLimitMaxVolume()+"");
+        //Ada Android Patch End
     }
 
     private void initGeneralCallback() {
         /**
          * 通用模块回调
          */
-        mainMenuViewHolder.powerinput_val.setText(powerInputString);
-        mainMenuViewHolder.auxiliary_val.setText(getString(R.string.str_mainmenu_default_switch_off));
+        mainMenuViewHolder.powerinput_val.setText(Utility.powerInputList[Utility.getinputpostion(Utility.getinputboot())]);
         if(WeaterActivity.mWeather!=null&&WeaterActivity.mWeather.getWeatherInfoList().size()>0){
             TextView tv=(TextView) mainMenuViewHolder.general[3].getChildAt(2);
             tv.setText(WeaterActivity.mWeather.getWeatherInfoList().get(0).getType());
@@ -770,16 +912,6 @@ public class MainActivity extends Activity  {
 
     private void initIntelligenceCallback() {
         setSleepAndPowerTime();
-        if(Settings.Global.getInt(getContentResolver(),Settings.Global.ON_INTELLIGENT_IDENTIFICATION, 0) == 0){
-            mainMenuViewHolder.intelligenceTextView[0].setText(getString(R.string.str_mainmenu_default_switch_off));
-        }else{
-            mainMenuViewHolder.intelligenceTextView[0].setText(getString(R.string.str_mainmenu_default_switch_on));
-        }
-        if(Settings.Global.getInt(getContentResolver(),Settings.Global.ON_SIGNAL_TV_STANBY, 0) == 0){
-            mainMenuViewHolder.intelligenceTextView[7].setText(getString(R.string.str_mainmenu_default_switch_off));
-        }else{
-            mainMenuViewHolder.intelligenceTextView[7].setText(getString(R.string.str_mainmenu_default_switch_on));
-        }
     }
 
     private void initPictureCallback() {
@@ -795,12 +927,6 @@ public class MainActivity extends Activity  {
         mainMenuViewHolder.color_temperature_val.setText(getResources().getStringArray(R.array.str_arr_picture_colortemperature_vals)[mTvPictureManager.getColorTemprature()]);
         mainMenuViewHolder.imgnoisereduction_val.setText(getResources().getStringArray(R.array.str_arr_pic_imgnoisereduction_vals)[mTvPictureManager.getNoiseReduction()]);
         mainMenuViewHolder.mpegnoisereduction_val.setText(getResources().getStringArray(R.array.str_arr_pic_mpegnoisereduction_vals)[mTvPictureManager.getMpegNoiseReduction()]);
-        try{
-            mainMenuViewHolder.xvYCC_val.setText(mTvPictureManager.getxvYCCEnable()?getString(R.string.str_mainmenu_default_switch_on):
-                    getString(R.string.str_mainmenu_default_switch_off));
-        }catch (NoSuchMethodError e){
-            e.printStackTrace();
-        }
         if(mTvPictureManager.getPictureMode()!=3){
             enableSingleItemOrNot(mainMenuViewHolder.picture[6],false);
             enableSingleItemOrNot(mainMenuViewHolder.picture[7],false);
@@ -964,16 +1090,16 @@ public class MainActivity extends Activity  {
     }
 
     public void click() {
-        if(isMenuShow){
+        if(isMenuShow&&!isSwitch()){
             isMenuShow=false;
-            if(posion==7&&flag==2){
+            if((posion==7&&flag==2)){
                 isMenuShowThis=true;
             }
         }
         if(flag==-1){
             viewFlipper.setDisplayedChild(posion);
         }else{
-            Intent intent ;
+            Intent intent = null;
             switch (posion){
                 case 0:
                     switch (flag){
@@ -995,9 +1121,14 @@ public class MainActivity extends Activity  {
                             startActivity(intent);
                             break;
                         case 4:
-                            intent = new Intent(MainActivity.this,SelectDialog.class);
-                            intent.putExtra("Type","Auxiliary");
-                            startActivity(intent);
+                            if(isAuxiliaryOn){
+                                isAuxiliaryOn=!isAuxiliaryOn;
+                                setwind(false);
+                            }else{
+                                isAuxiliaryOn=!isAuxiliaryOn;
+                                setwind(true);
+                            }
+                            mainMenuViewHolder.auxiliary_val.setText(isAuxiliaryOn?getString(R.string.str_mainmenu_default_switch_on):getString(R.string.str_mainmenu_default_switch_off));
                             break;
                     }
                     break;
@@ -1009,9 +1140,15 @@ public class MainActivity extends Activity  {
                             startActivity(intent);
                             break;
                         case 1:
-                            intent=new Intent(MainActivity.this,SelectDialog.class);
-                            intent.putExtra("Type","XvYCC");
-                            startActivity(intent);
+                            if(isxvYcc){
+                                isxvYcc=!isxvYcc;
+                                mTvPictureManager.setxvYCCEnable(false, 2);
+                            }else{
+                                isxvYcc=!isxvYcc;
+                                mTvPictureManager.setxvYCCEnable(true,0);
+                            }
+                            mainMenuViewHolder.xvYCC_val.setText(isxvYcc?getString(R.string.str_mainmenu_default_switch_on):
+                                    getString(R.string.str_mainmenu_default_switch_off));
                             break;
                         case 2:
                             intent=new Intent(MainActivity.this,SelectDialog.class);
@@ -1083,28 +1220,36 @@ public class MainActivity extends Activity  {
                             startActivity(intent);
                             break;
                         case 1:
-                            intent=new Intent(MainActivity.this,SelectDialog.class);
-                            intent.putExtra("Type","SoundSrs");
-                            startActivity(intent);
+                            isSoundSrs=!isSoundSrs;
+                            tvAudioManager.enableSRS(isSoundSrs?true:false);
+                            mainMenuViewHolder.srs_val.setText(isSoundSrs?
+                                    getString(R.string.str_mainmenu_default_switch_on):
+                                    getString(R.string.str_mainmenu_default_switch_off));
                             break;
                         case 2:
                             intent = new Intent(MainActivity.this,EqualizerActivity.class);
                             startActivity(intent);
                             break;
                         case 3:
-                            intent=new Intent(MainActivity.this,SelectDialog.class);
-                            intent.putExtra("Type","AVC");
-                            startActivity(intent);
+                            isAvc=!isAvc;
+                            tvAudioManager.setAvcMode(isAvc);
+                            mainMenuViewHolder.avc_val.setText(isAvc?
+                                    getString(R.string.str_mainmenu_default_switch_on):
+                                    getString(R.string.str_mainmenu_default_switch_off));
                             break;
                         case 4:
-                            intent=new Intent(MainActivity.this,SelectDialog.class);
-                            intent.putExtra("Type","Surround");
-                            startActivity(intent);
+                            isSurround=!isSurround;
+                            tvAudioManager.setAudioSurroundMode(isSurround?1:0);
+                            mainMenuViewHolder.surround_val.setText(isSurround?
+                                    getString(R.string.str_mainmenu_default_switch_on):
+                                    getString(R.string.str_mainmenu_default_switch_off));
                             break;
                         case 5:
-                            intent=new Intent(MainActivity.this,SelectDialog.class);
-                            intent.putExtra("Type","AutoHoh");
-                            startActivity(intent);
+                            isAutohoh=!isAutohoh;
+                            tvAudioManager.setHOHStatus(isAutohoh);
+                            mainMenuViewHolder.autohoh_val.setText(isAutohoh?
+                                    getString(R.string.str_mainmenu_default_switch_on):
+                                    getString(R.string.str_mainmenu_default_switch_off));
                             break;
                         case 6:
                             if(isMute){
@@ -1117,6 +1262,10 @@ public class MainActivity extends Activity  {
                                         | AudioManager.FLAG_SHOW_UI);
                             }
                             mainMenuViewHolder.mute_val.setText(audio.getStreamVolume( AudioManager.STREAM_SYSTEM  )==0?R.string.str_mainmenu_default_switch_on:R.string.str_mainmenu_default_switch_off);
+                            break;
+                        case 7:
+                            intent = new Intent(MainActivity.this,SetSoundMaxActivity.class);
+                            startActivity(intent);
                             break;
                     }
                     break;
@@ -1163,10 +1312,12 @@ public class MainActivity extends Activity  {
                 case 5:
                     switch (flag){
                         case 0:
-                            intelligencePosion=flag;
-                            intent=new Intent(MainActivity.this,SelectDialog.class);
-                            intent.putExtra("Type","IntelligenceSwitch");
-                            startActivity(intent);
+                            isIdentifyDetection=!isIdentifyDetection;
+                            Settings.Global.putInt(getContentResolver(),
+                                    Settings.Global.ON_INTELLIGENT_IDENTIFICATION, isIdentifyDetection?1:0) ;
+                            mainMenuViewHolder.intelligenceTextView[0].setText(isIdentifyDetection?
+                                    getString(R.string.str_mainmenu_default_switch_on):
+                                    getString(R.string.str_mainmenu_default_switch_off));
                             break;
                         case 1:
                             intelligencePosion=flag;
@@ -1175,7 +1326,6 @@ public class MainActivity extends Activity  {
                             startActivity(intent);
                             break;
                         case 2:
-                        case 3:
                         case 4:
                         case 5:
                         case 6:
@@ -1188,11 +1338,37 @@ public class MainActivity extends Activity  {
                                 Toast.makeText(this, getString(R.string.str_function_not_open),Toast.LENGTH_SHORT).show();
                             }
                             break;
+                        case 3:
+                            isTemperaturemonitoring=!isTemperaturemonitoring;
+                            SharedPreferences.Editor localEditor = getSharedPreferences("TuferTvMenu", Context.MODE_PRIVATE).edit();
+                            if(isTemperaturemonitoring){
+                                localEditor.putBoolean("isTemperaturemonitoring", true);
+                            }else{
+                                localEditor.putBoolean("isTemperaturemonitoring", false);
+                            }
+                            localEditor.apply();
+                            intent =new Intent();
+                            if(isTemperaturemonitoring){
+                                intent.setAction("tufer.com.menutest.action.TemperaturemonitoringOn");
+                            }else{
+                                intent.setAction("tufer.com.menutest.action.TemperaturemonitoringOff");
+                            }
+                            mainMenuViewHolder.intelligenceTextView[3].setText(isTemperaturemonitoring?
+                                    getString(R.string.str_mainmenu_default_switch_on):
+                                    getString(R.string.str_mainmenu_default_switch_off));
+                            sendBroadcast(intent);
+                            break;
                         case 7:
-                            intelligencePosion=flag;
-                            intent=new Intent(MainActivity.this,SelectDialog.class);
-                            intent.putExtra("Type","IntelligenceSwitch");
-                            startActivity(intent);
+//                            intelligencePosion=flag;
+//                            intent=new Intent(MainActivity.this,SelectDialog.class);
+//                            intent.putExtra("Type","IntelligenceSwitch");
+//                            startActivity(intent);
+                            isNoSignalStandbyMode=!isNoSignalStandbyMode;
+                            Settings.Global.putInt(getContentResolver(),
+                                    Settings.Global.ON_SIGNAL_TV_STANBY, isNoSignalStandbyMode?1:0);
+                            mainMenuViewHolder.intelligenceTextView[7].setText(isNoSignalStandbyMode?
+                                    getString(R.string.str_mainmenu_default_switch_on):
+                                    getString(R.string.str_mainmenu_default_switch_off));
                             break;
                         case 8:
                             isSleep=true;
@@ -1222,9 +1398,11 @@ public class MainActivity extends Activity  {
                             startActivity(intent);
                             break;
                         case 2:
-                            intent=new Intent(MainActivity.this,SelectDialog.class);
-                            intent.putExtra("Type","PowerMusic");
-                            startActivity(intent);
+                            isPowerOnMusicMode=!isPowerOnMusicMode;
+                            mTvFactoryManager.setPowerOnMusicMode(isPowerOnMusicMode?1:0);
+                            mainMenuViewHolder.powermusic_val.setText(isPowerOnMusicMode?
+                                    getString(R.string.str_mainmenu_default_switch_on):
+                                    getString(R.string.str_mainmenu_default_switch_off));
                             break;
                     }
                     break;
@@ -1258,6 +1436,7 @@ public class MainActivity extends Activity  {
             }
         }
     }
+
     private BroadcastReceiver mReceiver =new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -1349,6 +1528,32 @@ public class MainActivity extends Activity  {
             }
         }
     };
+
+    private void setwind(boolean enable){
+        setGlobalIntSetting(Settings.Global.NAVIGATION_BAR_STATUS, enable);
+    }
+    protected boolean isNavigationBarEnabled() {
+        return getGlobalIntSettingAsBoolean(Settings.Global.NAVIGATION_BAR_STATUS);
+    }
+    public void setGlobalIntSetting(String setting, boolean value) {
+        int settingValue = value ? 1 : 0;
+        Settings.Global.putInt(getContentResolver(), setting, settingValue);
+    }
+    public boolean getGlobalIntSettingAsBoolean(String setting) {
+        return Settings.Global.getInt(getContentResolver(), setting, 0) != 0;
+    }
+
+    public boolean isSwitch() {
+        if((flag==-1)||(posion==0&&flag==4)||(posion==1&&flag==1)||(posion==2&&flag==1)||
+                (posion==2&&flag==3)||(posion==2&&flag==4)||(posion==2&&flag==5)||
+                (posion==2&&flag==6)||(posion==5&&flag==0)||(posion==5&&flag==1)||
+                (posion==5&&flag==2)||(posion==5&&flag==3)||(posion==5&&flag==4)||
+                (posion==5&&flag==5)||(posion==5&&flag==6)||(posion==5&&flag==7)||
+                (posion==6&&flag==2)){
+            return true;
+        }
+        return false;
+    }
 }
 
 

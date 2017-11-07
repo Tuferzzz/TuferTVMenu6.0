@@ -1,6 +1,8 @@
 package tufer.com.menutest.UIActivity;
 
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.IAudioService;
 import android.provider.Settings;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -11,10 +13,15 @@ import android.widget.TextView;
 import com.mstar.android.tv.TvFactoryManager;
 
 
+import java.util.ArrayList;
+
 import tufer.com.menutest.R;
 import tufer.com.menutest.UIActivity.about.DeviceManager;
+import tufer.com.menutest.UIActivity.general.powerinput.GetTvSource;
+import tufer.com.menutest.UIActivity.general.powerinput.InputSourceItem;
 import tufer.com.menutest.UIActivity.system.city.CitySettingActivity;
-
+import tufer.com.menutest.Util.MaxVolume;
+import tufer.com.menutest.Util.Utility;
 
 
 /**
@@ -53,8 +60,8 @@ public class MainMenuViewHolder {
     int[] soundId={R.id.linearlayout_sound_soundmode,R.id.linearlayout_sound_srs,
             R.id.linearlayout_sound_equalizer,
             R.id.linearlayout_sound_avc,R.id.linearlayout_sound_surround,
-            R.id.linearlayout_sound_auto_hoh,R.id.linearlayout_sound_mute};
-    TextView soundmode_val,srs_val,avc_val,surround_val,autohoh_val,mute_val;
+            R.id.linearlayout_sound_auto_hoh,R.id.linearlayout_sound_mute,R.id.linearlayout_sound_max};
+    TextView soundmode_val,srs_val,avc_val,surround_val,autohoh_val,mute_val,max_val;
 
     LinearLayout[] channel;
     int[] channelId={R.id.linearlayout_channel_autotuning,
@@ -137,8 +144,14 @@ public class MainMenuViewHolder {
             general[i].setClickable(false);
         }
         powerinput_val= (TextView) activity.findViewById(R.id.textview_general_powerinput_val);
+        powerinput_val.setText(Utility.getPowerInputList()[Utility.getinputpostion(Utility.getinputboot())]);
         auxiliary_val= (TextView) activity.findViewById(R.id.textview_general_wind_val);
-        auxiliary_val.setText(activity.getString(R.string.str_mainmenu_default_switch_off));
+        activity.isAuxiliaryOn=activity.isNavigationBarEnabled();
+        auxiliary_val.setText(activity.isAuxiliaryOn?
+                activity.getString(R.string.str_mainmenu_default_switch_on):
+                activity.getString(R.string.str_mainmenu_default_switch_off));
+
+
     }
 
     private void initPicture() {
@@ -186,8 +199,9 @@ public class MainMenuViewHolder {
         mpegnoisereduction_val.setText(activity.getResources().getStringArray(R.array.str_arr_pic_mpegnoisereduction_vals)
                 [activity.mTvPictureManager.getMpegNoiseReduction()]);
         xvYCC_val= (TextView) activity.findViewById(R.id.xvycc_val);
+        activity.isxvYcc=activity.mTvPictureManager.getxvYCCEnable();
         try{
-            xvYCC_val.setText(activity.mTvPictureManager.getxvYCCEnable()?activity.getString(R.string.str_mainmenu_default_switch_on):
+            xvYCC_val.setText(activity.isxvYcc?activity.getString(R.string.str_mainmenu_default_switch_on):
                     activity.getString(R.string.str_mainmenu_default_switch_off));
         }catch (NoSuchMethodError e){
             e.printStackTrace();
@@ -195,7 +209,7 @@ public class MainMenuViewHolder {
     }
 
     private void initSound() {
-        sound=new LinearLayout[7];
+        sound=new LinearLayout[8];
         for(int i=0;i<sound.length;i++){
             sound[i]=new LinearLayout(activity);
             sound[i]= (LinearLayout) activity.findViewById(soundId[i]);
@@ -206,19 +220,23 @@ public class MainMenuViewHolder {
         soundmode_val.setText(activity.getResources().getStringArray(R.array.str_arr_sound_soundmode_vals)
                 [activity.tvAudioManager.getAudioSoundMode()]);
         srs_val= (TextView) activity.findViewById(R.id.textview_sound_srs_val);
-        srs_val.setText(activity.tvAudioManager.isSRSEnable()?
+        activity.isSoundSrs=activity.tvAudioManager.isSRSEnable();
+        srs_val.setText(activity.isSoundSrs?
                 activity.getString(R.string.str_mainmenu_default_switch_on):
                 activity.getString(R.string.str_mainmenu_default_switch_off));
         surround_val= (TextView) activity.findViewById(R.id.textview_sound_surround_val);
-        surround_val.setText(activity.tvAudioManager.getAudioSurroundMode()==1?
+        activity.isSurround=activity.tvAudioManager.getAudioSurroundMode()==1?true:false;
+        surround_val.setText(activity.isSurround?
                 activity.getString(R.string.str_mainmenu_default_switch_on):
                 activity.getString(R.string.str_mainmenu_default_switch_off));
         avc_val= (TextView) activity.findViewById(R.id.textview_sound_avc_val);
-        avc_val.setText(activity.tvAudioManager.getAvcMode()?
+        activity.isAvc=activity.tvAudioManager.getAvcMode();
+        avc_val.setText(activity.isAvc?
                 activity.getString(R.string.str_mainmenu_default_switch_on):
                 activity.getString(R.string.str_mainmenu_default_switch_off));
         autohoh_val= (TextView) activity.findViewById(R.id.textview_sound_auto_hoh_val);
-        autohoh_val.setText(activity.tvAudioManager.getHOHStatus()?
+        activity.isAutohoh=activity.tvAudioManager.getHOHStatus();
+        autohoh_val.setText(activity.isAutohoh?
                 activity.getString(R.string.str_mainmenu_default_switch_on):
                 activity.getString(R.string.str_mainmenu_default_switch_off));
         mute_val= (TextView) activity.findViewById(R.id.mute_val);
@@ -227,6 +245,13 @@ public class MainMenuViewHolder {
                 activity.getString(R.string.str_mainmenu_default_switch_off));
         activity.isMute=(activity.volume==0?true:false);
         if(activity.isMute) activity.volume=50;
+
+        //获取音量最大值
+        max_val= (TextView) activity.findViewById(R.id.max_val);
+        //Ada Android Patch Begin add for limit max Volume tianky@20160831
+        MaxVolume mMaxVolume = new MaxVolume();
+        max_val.setText(mMaxVolume.getLimitMaxVolume()+"");
+        //Ada Android Patch End
     }
 
     private void initChannel() {
@@ -259,7 +284,7 @@ public class MainMenuViewHolder {
             intelligence[i]= (LinearLayout) activity.findViewById(intelligenceId[i]);
             intelligence[i].setFocusable(false);
             intelligence[i].setClickable(false);
-            if(i>=2&&i<=6&&!activity.isIntelligence){
+            if(i>=2&&i<=6&&!activity.isIntelligence&&i!=3){
                 activity.enableSingleItemOrNot(intelligence[i],false);
             }
         }
@@ -272,15 +297,23 @@ public class MainMenuViewHolder {
             intelligenceTextView[i]=new TextView(activity);
             intelligenceTextView[i]=(TextView)activity.findViewById(intelligenceTextViewId[i]);
         }
-        if(Settings.Global.getInt(activity.getContentResolver(),Settings.Global.ON_INTELLIGENT_IDENTIFICATION, 0) == 0){
+        activity.isIdentifyDetection=Settings.Global.getInt(activity.getContentResolver(),Settings.Global.ON_INTELLIGENT_IDENTIFICATION, 0) == 1;
+        if(!activity.isIdentifyDetection){
             intelligenceTextView[0].setText(activity.getString(R.string.str_mainmenu_default_switch_off));
         }else{
             intelligenceTextView[0].setText(activity.getString(R.string.str_mainmenu_default_switch_on));
         }
-        if(Settings.Global.getInt(activity.getContentResolver(),Settings.Global.ON_SIGNAL_TV_STANBY, 0) == 0){
+        activity.isNoSignalStandbyMode=Settings.Global.getInt(activity.getContentResolver(),Settings.Global.ON_SIGNAL_TV_STANBY, 0) == 1;
+        if(!activity.isNoSignalStandbyMode){
             intelligenceTextView[7].setText(activity.getString(R.string.str_mainmenu_default_switch_off));
         }else{
             intelligenceTextView[7].setText(activity.getString(R.string.str_mainmenu_default_switch_on));
+        }
+        activity.isTemperaturemonitoring=activity.getSharedPreferences("TuferTvMenu",Context.MODE_PRIVATE ).getBoolean("isTemperaturemonitoring",false);
+        if(activity.isTemperaturemonitoring){
+            intelligenceTextView[3].setText(activity.getString(R.string.str_mainmenu_default_switch_on));
+        }else{
+            intelligenceTextView[3].setText(activity.getString(R.string.str_mainmenu_default_switch_off));
         }
     }
 
@@ -293,7 +326,8 @@ public class MainMenuViewHolder {
             system[i].setClickable(false);
         }
         powermusic_val= (TextView) activity.findViewById(R.id.textview_system_powermusic_val);
-        powermusic_val.setText(TvFactoryManager.getInstance().getPowerOnMusicMode()!=0?
+        activity.isPowerOnMusicMode=activity.mTvFactoryManager.getPowerOnMusicMode()!=0?true:false;
+        powermusic_val.setText(activity.isPowerOnMusicMode?
                 activity.getString(R.string.str_mainmenu_default_switch_on):
                 activity.getString(R.string.str_mainmenu_default_switch_off));
         location_val= (TextView) activity.findViewById(R.id.textview_system_location_val);

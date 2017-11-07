@@ -18,7 +18,7 @@ allprojects {
     }
     gradle.projectsEvaluated {
         tasks.withType(JavaCompile){
-            options.compilerArgs.add('-Xbootclasspath/p:app\\frameworktv_libs\\FrameworkTV.jar')
+            options.compilerArgs.add('-Xbootclasspath/p:app\\libs_framework\\FrameworkTV.jar')
         }
 
     }

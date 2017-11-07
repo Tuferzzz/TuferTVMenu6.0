@@ -143,6 +143,8 @@
     <string name="str_mainmenu_sound_track">音軌</string>
     <string name="str_mainmenu_sound_channelselect">聲道選擇</string>
     <string name="str_mainmenu_sound_mute">靜音</string>
+    <string name="str_mainmenu_sound_max">音量最大值</string>
+    <string name="str_mainmenu_sound_max_set">設定音量最大值</string>
     <string name="str_mainmenu_sound_soundmode_standard">標準</string>
     <string name="str_mainmenu_sound_soundmode_music">音樂</string>
     <string name="str_mainmenu_sound_soundmode_movie">影院</string>
@@ -1435,6 +1437,7 @@
     <string name="str_cha_bandwidth_switch">带宽切换</string>
     <string name="str_cha_bandwidth_uhf_7mhz">7MHz over UHF</string>
     <string name="str_cha_programedit">频道编辑</string>
+    <string name="str_cha_preinstalltable">預設ATV节目列表</string>
     <string name="str_cha_signalinfo">Signal Information</string>
     <string name="str_cha_ciinformation"> CI信息</string>
     <string name="str_cha_software_update_oad">Software Update (OAD)</string>
@@ -1830,6 +1833,7 @@
     <string name="get_weather_data_shibai">獲取數據失敗，請檢查網絡！</string>
     <string name="query_cityname_shibai">査詢都市名有誤，獲取數據失敗！</string>
     <string name="rename_null">修改名不能為空，修改失敗！</string>
+    <string name="renumber_null">修改值不能為空，修改失敗！</string>
     <string name="str_only_usermode_available">只在用戶模式下可用!</string>
     <string name="str_function_not_open">該功能暫時未開放！</string>
 
@@ -1837,4 +1841,29 @@
     <string name="buildVersion">版本号</string>
 
     <string name="set_local_name">修改本地名稱成功!</string>
+
+    <!-- for preinstall program table -->
+    <string name="str_preinstall_programtable">預設ATV節目列表</string>
+    <string name="str_preinstall_programtable_import">導入節目列表</string>
+    <string name="str_preinstall_programtable_updatefile">U盤節目表文件導入本機</string>
+    <string name="str_preinstall_programtable_exprotfile">本機節目表文件拷貝到U盤</string>
+    <string name="str_preinstall_programtable_back">返回</string>
+
+    <string-array name="str_preinstall_programtable_showinfo">
+        <item name="str_import_programtable_fail">節目表導入失敗</item>
+        <item name="str_import_programtable_success">節目表導入成功</item>
+        <item name="str_import_programtable_blank">當前節目表爲空，請更新TvChannel</item>
+        <item name="str_usb_plug_fail">U盤識別失敗</item>
+        <item name="str_usb_programtable_check">U盤TvChannel爲空或TvChannel表不符合要求</item>
+        <item name="str_usb_protable_copy_tv_fail">TvChannel文件拷貝失敗</item>
+        <item name="str_tv_protable_copy_usb_success">TvChannel文件拷貝成功</item>
+        <item name="str_usb_new_list_txt_file">请手动先在U盘新建TvChannel文件，才能导出</item>
+        <item name="str_copy_date_loading">请勿拔U盘！数据在复制中.....</item>
+        <item name="str_export_protable_note">备注：\n
+        	                                    1.搜完台退出菜單後，系統自動將ATV節 \n
+        	                                     \t 目信息導出至TvChannel文件內。\n
+        	                                     \t  \n
+        	                                    2.清空本地TvChannel內容方法：執行搜台 \n
+        	                                     \t 後馬上再退出即可清空。</item>
+    </string-array>
 </resources>

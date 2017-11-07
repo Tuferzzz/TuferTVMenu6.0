@@ -182,6 +182,8 @@
     <string name="str_mainmenu_sound_track">Track</string>
     <string name="str_mainmenu_sound_channelselect">Channel Select</string>
     <string name="str_mainmenu_sound_mute">Mute</string>
+    <string name="str_mainmenu_sound_max">Maximum volume</string>
+    <string name="str_mainmenu_sound_max_set">Setting maximum volume</string>
     <string name="str_mainmenu_sound_soundmode_standard">Standard</string>
     <string name="str_mainmenu_sound_soundmode_music">Music</string>
     <string name="str_mainmenu_sound_soundmode_movie">Movie</string>
@@ -931,6 +933,32 @@
   <string name="str_audio_language_title">Audio Language</string>
   <!-- For audio language-->
   <string name="str_audio_language">Audio Language</string>
+
+    <!-- for preinstall program table -->
+    <string name="str_preinstall_programtable">Preinstall ATV Program Table</string>
+    <string name="str_preinstall_programtable_import">Import Program Table</string>
+    <string name="str_preinstall_programtable_updatefile">U Disk Program Table Import Local</string>
+    <string name="str_preinstall_programtable_exprotfile">Exprot Program Table To The U Disk</string>
+    <string name="str_preinstall_programtable_back">Back</string>
+
+    <string-array name="str_preinstall_programtable_showinfo">
+        <item name="str_import_programtable_fail">Import program to fail </item>
+        <item name="str_import_programtable_success">Import program to success</item>
+        <item name="str_import_programtable_blank">TvChannel file no data，plase update the TvChannel file !</item>
+        <item name="str_usb_plug_fail">U盘识别失败</item>
+        <item name="str_usb_programtable_check">U盘TvChannel为空或TvChannel不符合要求</item>
+        <item name="str_usb_protable_copy_tv_fail">TvChannel文件拷贝失败</item>
+        <item name="str_tv_protable_copy_usb_success">TvChannel文件拷贝成功</item>
+        <item name="str_usb_new_list_txt_file">请手动先在U盘新建TvChannel文件，才能导出</item>
+        <item name="str_copy_date_loading">请勿拔U盘！数据在复制中.....</item>
+        <item name="str_export_protable_note">备注：\n
+        	                                    1.搜完台退出菜单后，系统自动将ATV节 \n
+        	                                     \t 目信息导出至TvChannel文件内。\n
+        	                                     \t  \n
+        	                                    2.清空本地TvChannel内容方法：执行搜台 \n
+        	                                     \t 后马上再退出即可清空。</item>
+    </string-array>
+
   <!-- For sound format info-->
   <string name="str_sound_format_mono">MONO</string>
   <string name="str_sound_format_dual_a">DUAL A</string>
@@ -1412,6 +1440,7 @@
     <string name="str_cha_bandwidth_switch">Bandwidth switching</string>
     <string name="str_cha_bandwidth_uhf_7mhz">7MHz over UHF</string>
     <string name="str_cha_programedit">Channel editor</string>
+    <string name="str_cha_preinstalltable">Preinstall ATV Program Table</string>
     <string name="str_cha_signalinfo">Signal Information</string>
     <string name="str_cha_ciinformation"> CI information</string>
     <string name="str_cha_software_update_oad">Software Update (OAD)</string>
@@ -2810,6 +2839,7 @@
     <string name="get_weather_data_shibai">Failed to obtain data. Please check the network！</string>
     <string name="query_cityname_shibai">Query city name is incorrect, access to data failed！</string>
     <string name="rename_null">The modification name cannot be empty, and the modification failed！</string>
+    <string name="renumber_null">The modification number cannot be empty, and the modification failed！</string>
     <string name="str_only_usermode_available">Available only in user mode!</string>
     <string name="str_function_not_open">This function has not been opened yet!</string>
 
@@ -3019,4 +3049,6 @@
     <string name="buildVersion">Build Number</string>
 
    <string name="set_local_name">Modify local name successfully!</string>
+    <string name="str_mainmenu_default_sound_max">100</string>
+    <string name="show_min_limit_maxvol">Min limit set Max Vol is </string>
 </resources>

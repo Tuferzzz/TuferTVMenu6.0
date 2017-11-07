@@ -79,6 +79,8 @@
 package tufer.com.menutest.UIActivity.channel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -88,6 +90,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
@@ -103,6 +106,7 @@ import android.widget.ListView;
 import android.graphics.Rect;
 
 import com.mstar.android.MKeyEvent;
+import com.mstar.android.tvapi.common.ChannelManager;
 import com.mstar.android.tvapi.common.vo.EnumServiceType;
 import com.mstar.android.tvapi.common.vo.ProgramInfo;
 import com.mstar.android.tvapi.dtv.vo.DtvEventScan;
@@ -117,6 +121,7 @@ import com.mstar.android.tv.TvPvrManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.app.Activity;
+import android.widget.Toast;
 
 import tufer.com.menutest.R;
 import tufer.com.menutest.UIActivity.MstarBaseActivity;
@@ -172,6 +177,8 @@ public class AdaChannelListActivity extends MstarBaseActivity {
     private TvAtscChannelManager mTvAtscChannelManager = null;
 
     private OnDtvPlayerEventListener mDtvEventListener = null;
+
+    private Map<String, String> mMap ;
 
     private class DtvEventListener implements OnDtvPlayerEventListener {
 
@@ -377,13 +384,14 @@ public class AdaChannelListActivity extends MstarBaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().getAttributes().gravity = Gravity.LEFT;
         mTvSystem = TvCommonManager.getInstance().getCurrentTvSystem();
         setContentView(R.layout.ada_program_list_view);
         proListView = (ListView) findViewById(R.id.program_edit_list_view);
         proListTitle = (TextView) findViewById(R.id.program_edit_title);
         proListTitle.setText(R.string.str_channelList_program);
         proListLayout = (LinearLayout) findViewById(R.id.ada_program_list);
-
+        mMap=Utility.getAtvMap(this);
         mTvChannelManager = TvChannelManager.getInstance();
         if (mTvSystem == TvCommonManager.TV_SYSTEM_ATSC) {
             mTvAtscChannelManager = TvAtscChannelManager.getInstance();
@@ -751,10 +759,19 @@ public class AdaChannelListActivity extends MstarBaseActivity {
                 String channum = mTvAtscChannelManager.getDispChannelNum(pgi);
                 String name = mTvAtscChannelManager.getDispChannelName(pgi);
                 plvio.setTvName(name);
+                //Toast.makeText(this,"plvio.setTvName(name)"+name,Toast.LENGTH_SHORT).show();
             } else {
                 plvio.setTvName(pgi.serviceName);
+                //Toast.makeText(this,"plvio.setTvName(pgi.serviceName)"+pgi.serviceName,Toast.LENGTH_SHORT).show();
             }
             if (pgi.serviceType == TvChannelManager.SERVICE_TYPE_ATV) {
+                Log.d(TAG,"pgi.serviceName:"+pgi.serviceName+" pgi.frequency:"+pgi.frequency);
+                //Toast.makeText(this,"pgi.frequency:"+pgi.frequency+" map:"+mMap.get("55055"),Toast.LENGTH_SHORT).show();
+                if(mMap.containsKey(String.valueOf(pgi.frequency))){
+                    plvio.setTvName(mMap.get(String.valueOf(pgi.frequency)));
+                    mTvChannelManager.setProgramName(pgi.number, pgi.serviceType, mMap.get(String.valueOf(pgi.frequency)));
+                    //Toast.makeText(this,"ChannelActivity.mMap.get(String.valueOf(pgi.frequency))"+mMap.get(String.valueOf(pgi.frequency)),Toast.LENGTH_SHORT).show();
+                }
                 plvio.setTvNumber(String.valueOf(Utility.getATVDisplayChNum(pgi.number)));
             } else {
                 if (mTvSystem == TvCommonManager.TV_SYSTEM_ATSC) {

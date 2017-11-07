@@ -36,4 +36,9 @@
         <TextView android:text="@string/str_mainmenu_sound_mute" style="@style/second_text_name" />
         <TextView android:id="@+id/mute_val" android:text="@string/str_mainmenu_default_switch_off" style="@style/second_text_val" />
     </LinearLayout>
+    <LinearLayout android:id="@+id/linearlayout_sound_max" android:layout_marginLeft="369.0dip" android:layout_marginTop="25.0dip" android:layout_below="@id/linearlayout_sound_avc" style="@style/linearlayout_style">
+        <ImageView android:src="@drawable/sound_max" android:contentDescription="@string/str_mainmenu_content" style="@style/second_imageview" />
+        <TextView android:text="@string/str_mainmenu_sound_max" style="@style/second_text_name" />
+        <TextView android:id="@+id/max_val" android:text="@string/str_mainmenu_default_sound_max" style="@style/second_text_val" />
+    </LinearLayout>
 </RelativeLayout>

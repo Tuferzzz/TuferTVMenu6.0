@@ -5,7 +5,7 @@ android {
     gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {
             options.compilerArgs.add(
-                    '-Xbootclasspath/p:app\\frameworktv_libs\\FrameworkTV.jar;'+
+                    '-Xbootclasspath/p:app\\libs_framework\\FrameworkTV.jar;'+
                             '-Xbootclasspath/p:app\\libs\\MstarTV.jar;')
         }
     }
@@ -20,6 +20,7 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        multiDexEnabled = true
     }
     buildTypes {
         release {
@@ -32,11 +33,28 @@ android {
 }
 
 dependencies {
+    provided files('libs_framework/FrameworkTV.jar')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:leanback-v17:24.2.1'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile files('libs/xUtils-2.6.14.jar')
-    compile files('frameworktv_libs/FrameworkTV.jar')
     compile files('libs/MstarTV.jar')
+    compile 'com.android.support:multidex:1.0.0'
+}
+preBuild {
+    doLast {
+        def imlFile = file(project.name + ".iml")
+        println('Change ' + project.name + '.iml order')
+        try {
+            def parsedXml = (new XmlParser()).parse(imlFile)
+            def jdkNode = parsedXml.component[1].orderEntry.find { it.'@type' == 'jdk' }
+            parsedXml.component[1].remove(jdkNode)
+            def sdkString = "Android API " + android.compileSdkVersion.substring("android-".length()) + " Platform"
+            new groovy.util.Node(parsedXml.component[1], 'orderEntry', ['type': 'jdk', 'jdkName': sdkString, 'jdkType': 'Android SDK'])
+            groovy.xml.XmlUtil.serialize(parsedXml, new FileOutputStream(imlFile))
+        } catch (FileNotFoundException e) {
+            // nop, iml not found
+        }
+    }
 }

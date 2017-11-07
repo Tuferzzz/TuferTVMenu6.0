@@ -78,7 +78,17 @@
 
 package tufer.com.menutest.Util;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -90,6 +100,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.SystemProperties;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -117,6 +128,8 @@ import com.mstar.android.tv.TvAudioManager;
 
 import tufer.com.menutest.R;
 import tufer.com.menutest.UIActivity.MainActivity;
+import tufer.com.menutest.UIActivity.general.powerinput.GetTvSource;
+import tufer.com.menutest.UIActivity.general.powerinput.InputSourceItem;
 import tufer.com.menutest.UIActivity.pvr.PVRActivity;
 import tufer.com.menutest.Util.TvIntent;
 import tufer.com.menutest.Util.TVRootApp;
@@ -139,6 +152,14 @@ public class Utility {
     private static final int DO_CHANNEL_RETURN = 3;
 
     private static final int DO_CHANNEL_SELECT = 4;
+
+    private static final String[] mSourceListname = {
+            "VGA2","VGA3","HDMI-DP","OPS"
+    };
+
+    private static String[] inputdata=null;
+
+    public static String powerInputList[];
 
     /**
      * Parental guidance spec for Singapore, Australia and Default
@@ -175,6 +196,8 @@ public class Utility {
 
     public static final int SCROLL_DIRECTION_DOWN = 2;
 
+    public static Map<String, String> mMap = null;
+
     public void Utility() {
 
     }
@@ -186,6 +209,107 @@ public class Utility {
         }
         return sContext;
     }
+
+    public static Map getAtvMap(Context context){
+        if(mMap==null||mMap.size()==0){
+            mMap= new HashMap<String, String>();
+            try {
+                if(!new File("/data/data/tufer.com.menutest/files/list.txt").exists()){
+                    Log.d(TAG,"list.txt文件不存在，创建文件并写入数据.");
+                    FileOutputStream outStream = null;
+                    try {
+                        outStream = context.openFileOutput("list.txt", Context.MODE_PRIVATE);
+                        outStream.write(("0@CCTV1综合@19205\n" +
+                                "1@CCTV2财经@20005\n" +
+                                "2@CCTV3综艺@12820\n" +
+                                "3@旅游卫视@14420\n" +
+                                "4@SDETV@13620\n" +
+                                "5@CCTV15音乐@16020\n" +
+                                "6@CCTV5体育@17610\n" +
+                                "7@新疆卫视@15220\n" +
+                                "8@CCTV NEWS@11220\n" +
+                                "9@BTV文艺@21605\n" +
+                                "10@BTV科教@22400\n" +
+                                "11@CCTV14少儿@23200\n" +
+                                "12@CETV 1@24000\n" +
+                                "13@CCTV4中文国际@24800\n" +
+                                "14@广西卫视@25595\n" +
+                                "15@四川卫视@26395\n" +
+                                "16@河南卫视@27195\n" +
+                                "17@CETV 1@27995\n" +
+                                "18@重庆卫视@28795\n" +
+                                "19@河北卫视@29595\n" +
+                                "20@东南卫视@30395\n" +
+                                "21@吉林卫视@31195\n" +
+                                "22@江苏卫视@31995\n" +
+                                "23@湖南卫视@32795\n" +
+                                "24@内蒙古卫视@33595\n" +
+                                "25@山西卫视@34395\n" +
+                                "26@CCTV12社会与法@35190\n" +
+                                "27@CCTV11戏曲@35990\n" +
+                                "28@CCTV10科教@36790\n" +
+                                "29@陕西卫视@37585\n" +
+                                "30@天津卫视@38385\n" +
+                                "31@甘肃卫视@39185\n" +
+                                "32@云南卫视@39985\n" +
+                                "33@贵州卫视@40785\n" +
+                                "34@青海卫视@41585\n" +
+                                "35@宁夏卫视@42385\n" +
+                                "36@安徽卫视@43180\n" +
+                                "37@浙江卫视@43980\n" +
+                                "38@江西卫视@44780\n" +
+                                "39@BTV KAKU少儿@44580\n" +
+                                "40@BTV北京卫视@47080\n" +
+                                "41@黑龙江卫视@47880\n" +
+                                "42@深圳卫视@48675\n" +
+                                "43@BTV青年@49480\n" +
+                                "44@BTV影视@50280\n" +
+                                "45@CCTV6电影@51075\n" +
+                                "46@BTV体育@51875\n" +
+                                "47@BTV财经@52675\n" +
+                                "48@CCTV7军事农业@55070\n" +
+                                "49@CCTV8电视剧@55870\n" +
+                                "50@广东卫视@55670\n" +
+                                "51@山东卫视@58270\n" +
+                                "52@湖北卫视@59065\n" +
+                                "53@辽宁卫视@61465\n" +
+                                "54@上海卫视@63865\n" +
+                                "55@CCTV13新闻@64665\n" +
+                                "56@西藏卫视@68655\n" +
+                                "57@华娱CETV@68655\n"+
+                                "58@测试频道@55055\n").getBytes());
+                        outStream.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                FileInputStream inStream = context.openFileInput("list.txt");//只需传文件名
+                if (inStream != null) {
+                    InputStreamReader inputreader = new InputStreamReader(inStream);
+                    BufferedReader buffreader = new BufferedReader(inputreader);
+                    String line;
+                    String[] str;
+                    //分行读取
+                    while ((line = buffreader.readLine()) != null) {
+                        str = line.split("@");
+                        mMap.put(str[2], str[1]);
+//                        Log.d(TAG, str[0] + ":" + str[1] + ":" + str[2]);
+//                        Log.d(TAG, mMap.get(str[2]) + ":" + str[1] );
+                    }
+                    inStream.close();
+                }
+            } catch (java.io.FileNotFoundException e) {
+                Log.d(TAG, "The File doesn't not exist.");
+            } catch (IOException e) {
+                Log.d(TAG, e.getMessage());
+            }
+        }
+        return mMap;
+    }
+
 
     public static int getCurrentTvSystem() {
         Log.d(TAG,"getCurrentTvSystem()");
@@ -1077,4 +1201,64 @@ public class Utility {
          */
         return srcName;
     }
+
+    public static int getinputboot(){
+        return Integer.valueOf(SystemProperties.get("persist.adaboot.channel", TvCommonManager.INPUT_SOURCE_STORAGE+""));
+    }
+
+    public static int getinputpostion(int inputSrcIndexs){
+        inputdata=MainActivity.myMainActivity.getResources().getStringArray(
+                R.array.str_arr_input_source_vals);
+        ArrayList<InputSourceItem> mGalleryItemList;
+        GetTvSource getTvSource = new GetTvSource(MainActivity.myMainActivity);
+        mGalleryItemList = getTvSource.getSource();
+        int inputpostion = 1;
+        switch(inputSrcIndexs){
+            case TvCommonManager.INPUT_SOURCE_STORAGE :
+                inputpostion = 1;
+                break;
+            case TvCommonManager.INPUT_SOURCE_NONE :
+                inputpostion = 0;
+                break;
+            case TvCommonManager.INPUT_SOURCE_VGA:
+                inputpostion = 2;
+                break;
+            default :
+                String inputSrcIndexsname;
+                String InputSourceName;
+                int inputnameint;
+                for (int i = 0; i < mGalleryItemList.size(); i++){
+                    InputSourceName = mGalleryItemList.get(i).getInputSourceName();
+                    inputnameint = mGalleryItemList.get(i).getPositon();
+                    if(inputSrcIndexs > TvCommonManager.INPUT_SOURCE_NONE) {
+                        inputSrcIndexsname = mSourceListname[inputSrcIndexs - TvCommonManager.INPUT_SOURCE_NONE - 1];
+                        if (InputSourceName.equals(inputSrcIndexsname)) {
+                            inputpostion = i + 2;
+                            return inputpostion;
+                        }
+                    }else if(InputSourceName.equals(inputdata[inputSrcIndexs]) ){
+
+                        inputpostion = i + 2;
+
+                        return inputpostion;
+                    }
+                }
+                break;
+        }
+        return inputpostion;
+    }
+
+    public static String[] getPowerInputList(){
+        ArrayList<InputSourceItem> mGalleryItemList;
+        GetTvSource getTvSource = new GetTvSource(MainActivity.myMainActivity);
+        mGalleryItemList = getTvSource.getSource();
+        powerInputList=new String[mGalleryItemList.size() + 2];
+        powerInputList[0] = MainActivity.myMainActivity.getResources().getStringArray(R.array.str_arr_general_powerinput_vals)[0];
+        powerInputList[1] = MainActivity.myMainActivity.getString(R.string.str_mainmenu_general_powerinput_android);
+        for (int i = 2; i <= mGalleryItemList.size() + 1; i++) {
+            powerInputList[i] = mGalleryItemList.get(i - 2).getInputSourceName();
+        }
+        return powerInputList;
+    }
+
 }

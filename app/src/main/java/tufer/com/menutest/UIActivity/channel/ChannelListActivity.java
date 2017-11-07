@@ -95,6 +95,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.InputDevice;
 import android.view.inputmethod.InputMethodManager;
 import android.view.KeyEvent;
@@ -649,7 +650,7 @@ public class ChannelListActivity extends MstarBaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        getWindow().getAttributes().gravity = Gravity.LEFT;
         mTvSystem = TvCommonManager.getInstance().getCurrentTvSystem();
         setContentView(R.layout.program_favorite_list);
         if ((getIntent() != null) && (getIntent().getExtras() != null)) {

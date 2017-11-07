@@ -20,12 +20,16 @@ import android.widget.ListView;
 
 
 import com.mstar.android.tv.TvFactoryManager;
+import com.mstar.android.tvapi.common.TvManager;
+import com.mstar.android.tvapi.common.exception.TvCommonException;
 
 import tufer.com.menutest.R;
 import tufer.com.menutest.Util.Tools;
 
 
 public class DeviceInfoSettings extends Activity {
+
+	private String TAG ="DeviceInfoSettings";
 
     private static final int LEGAL_INFO = 6;
 
@@ -50,7 +54,7 @@ public class DeviceInfoSettings extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        getTVModelandCustomerName();
+        //getTVModelandCustomerName();
 
         handler = new Handler();
 
@@ -175,21 +179,16 @@ public class DeviceInfoSettings extends Activity {
     private String getSystemBuildVersion(){
          String mBuildTime = null;
          String mBuildVersion = null;
-         String panelName = TvFactoryManager.getInstance().getPanelType();
-     	   mBuildTime = new String(SystemProperties.get("ro.build.date")); 
-     	   String[] array = mBuildTime.split(" "); 
-		   //log.i("chend","array.length" + array.length);
-		   Log.e("chend", "array.length" + array.length);
-		  // for(int i=0,i<7,i++){
-		    Log.e("chend", "array.length" + array[0]);
-			Log.e("chend", "array.length" + array[1]);
-			Log.e("chend", "array.length" + array[2]);
-			Log.e("chend", "array.length" + array[3]);
-			Log.e("chend", "array.length" + array[4]);
-			Log.e("chend", "array.length" + array[5]);
-		   //mBuildTime = new String(SystemProperties.get("ro.build.date"));  
-     	   //String[] array = mBuildTime.split(" ");
-     	   if(array.length>=6){
+         int mPanelWidth = 0;
+         try{
+            mPanelWidth = TvManager.getInstance().getPanelIniInfo("panel:m_wPanelWidth");
+         } catch (TvCommonException e) {
+          e.printStackTrace();
+		     }
+         //String mPanelName =TvFactoryManager.getInstance().getPanelType();
+     	   mBuildTime = new String(SystemProperties.get("ro.build.date"));  
+     	   String[] array = mBuildTime.split(" ");
+     	   if(array.length>=7){
      	   	 int spaceNum= 0;
      	  	 for(int i=0; i<(array.length-spaceNum); i++){
      	  		  if("".equals(array[i])){
@@ -203,20 +202,30 @@ public class DeviceInfoSettings extends Activity {
      	  		  	spaceNum =spaceNum+1;
      	  		  }
      	  	 }
-     	   }     	  
-     	   if((mBuildTime !=null)&&(array.length!=0)&&(array.length>=6)){
-
-			//}
-     	  // if((mBuildTime !=null)&&(array.length!=0)&&(array.length==6)){
-     	   //  mBuildVersion = boardModel+" "+customerName+" "+panelName+" "+
-     	    // 	                 array[5]+array[1]+array[2]+" "+array[3];
-			  mBuildVersion = SystemProperties.get("ro.ada.board_version");
+     	   }
+     	  
+     	   if( mBuildTime !=null && array.length!=0 && array.length>=6 && mPanelWidth > 0){
+     	     	mBuildVersion = boardModel+" "/*+customerName+" "*/+Integer.toString(mPanelWidth)+" "+
+     	     	                 array[5]+array[1]+array[2]+" "+array[3];     	     
      	   }else{
      	   	  mBuildVersion = TvFactoryManager.getInstance().getCompileTime().substring(0, 10)+" "+
      	   	                      TvFactoryManager.getInstance().getCompileTime().substring(11);
      	   } 
      	   return  mBuildVersion; 	 	        	   
     }
+
+	private String getPreSotfwareVersion(){
+		String strSWVer= "";
+		try {
+			if(TvManager.getInstance() != null){
+				strSWVer =TvManager.getInstance().getSystemSoftwareVersion();
+			}
+		} catch (TvCommonException e) {
+			e.printStackTrace();
+		}
+		Log.d(TAG," strSWVer:" + strSWVer);
+		return strSWVer;
+	}
 
     private String getTVMemoryInfo() {
         return freeMemory + "/" + totalMemory;

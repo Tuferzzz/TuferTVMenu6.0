@@ -195,12 +195,16 @@ public class BluetoothListeners {
                             bluetoothActivity.bluetooth_state = 0;
                             bluetoothViewHolder.bluetooth_button_image
                                     .setBackgroundResource(R.drawable.close);
+//                            MainActivity.myMainActivity.mainMenuViewHolder.bluetooth_val.
+//                                    setText(bluetoothActivity.getResources().getString(R.string.str_mainmenu_default_switch_off));
                             //MainActivity.isBuletoothOn=false;
                         } else {
                             Toast.makeText(
                                     bluetoothActivity,
                                     bluetoothActivity.getResources().getString(
                                             R.string.no_bluetooth_device), 1).show();
+//                            MainActivity.myMainActivity.mainMenuViewHolder.bluetooth_val.
+//                                    setText(bluetoothActivity.getResources().getString(R.string.no_bluetooth_device));
                             //MainActivity.isBuletoothOn=false;
                         }
                     }

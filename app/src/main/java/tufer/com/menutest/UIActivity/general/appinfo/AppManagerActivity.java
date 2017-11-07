@@ -114,6 +114,9 @@ public class AppManagerActivity extends Activity {
             if(pkgName.equals("tufer.com.menutest")){
                 continue;
             }
+            if(pkgName.equals("com.swfplug.flashplay")){
+                continue;
+            }
             // 第三方应用程序
             if((pkg.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) <= 0 ) {
                 myAppList.add(localAppInfo);

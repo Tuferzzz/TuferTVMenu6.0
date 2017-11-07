@@ -79,6 +79,7 @@
 package tufer.com.menutest.UIActivity.channel;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -88,11 +89,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.EditText;
@@ -102,6 +105,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.mstar.android.MKeyEvent;
+import com.mstar.android.tv.TvPvrManager;
 import com.mstar.android.tvapi.common.vo.ProgramInfo;
 import com.mstar.android.tvapi.dtv.vo.DtvEventScan;
 import com.mstar.android.tvapi.dtv.listener.OnDtvPlayerEventListener;
@@ -114,6 +118,7 @@ import tufer.com.menutest.R;
 import tufer.com.menutest.UIActivity.MainActivity;
 import tufer.com.menutest.UIActivity.MstarBaseActivity;
 import tufer.com.menutest.UIActivity.TimeOutHelper;
+import tufer.com.menutest.UIActivity.pvr.PVRActivity;
 import tufer.com.menutest.Util.TvIntent;
 import tufer.com.menutest.Util.Constant;
 import tufer.com.menutest.Util.Utility;
@@ -190,6 +195,8 @@ public class ProgramListViewActivity extends MstarBaseActivity {
     private TvAtscChannelManager mTvAtscChannelManager = null;
 
     private OnDtvPlayerEventListener mDtvEventListener = null;
+
+    private Map<String,String> mMap;
 
     private class DtvEventListener implements OnDtvPlayerEventListener {
 
@@ -395,7 +402,7 @@ public class ProgramListViewActivity extends MstarBaseActivity {
         textSkip = (TextView) findViewById(R.id.program_edit_str_skip);
         textLock = (TextView) findViewById(R.id.program_edit_str_lock);
         proListView = (ListView) findViewById(R.id.program_edit_list_view);
-
+        mMap=Utility.getAtvMap(this);
         if (mTvSystem == TvCommonManager.TV_SYSTEM_ATSC) {
             ImgMove.setVisibility(View.GONE);
             textMove.setVisibility(View.GONE);
@@ -413,6 +420,63 @@ public class ProgramListViewActivity extends MstarBaseActivity {
         proListView.setAdapter(mProgramEditAdapter);
         proListView.setDividerHeight(0);
         proListView.setSelection(getfocusIndex());
+        proListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // TODO Auto-generated method stub
+                final ProgramInfo ProgInf = progInfoList.get(position);
+                Log.d(TAG, "number onItemClick timeOutHelper.reset" + ProgInf.number);
+
+                timeOutHelper.reset();
+                //RootActivity.runCount=1; // always delay
+
+                if(true == isSameWithCurrentProgram(ProgInf)) {
+                    Log.d(TAG, "CH List :Select the same channel!!!");
+                } else {
+                    if (ProgInf.serviceType < TvChannelManager.SERVICE_TYPE_INVALID) {
+                        if (isNeedToCheckExitRecord(ProgInf)) {
+                            // Toast.makeText
+                            AlertDialog.Builder build = new AlertDialog.Builder(
+                                    ProgramListViewActivity.this);
+                            build.setMessage(R.string.str_pvr_tip2);
+                            build.setPositiveButton(R.string.str_stop_record_dialog_stop,
+                                    new OnClickListener() {
+
+                                        @Override
+                                        public void onClick(DialogInterface dialog,
+                                                            int which) {
+                                            TvPvrManager.getInstance().stopRecord();
+                                            //PVRActivity.FREQUENCY_NOT_RECORDING = -1;
+                                            if (mTvSystem == TvCommonManager.TV_SYSTEM_ATSC) {
+                                                mTvAtscChannelManager.programSel(ProgInf.majorNum, ProgInf.minorNum);
+                                            } else {
+                                                mTvChannelManager.selectProgram(ProgInf.number, ProgInf.serviceType);
+                                            }
+                                        }
+                                    });
+                            build.setNegativeButton(R.string.str_stop_record_dialog_cancel,
+                                    new OnClickListener() {
+
+                                        @Override
+                                        public void onClick(DialogInterface dialog,
+                                                            int which) {
+                                        }
+                                    });
+                            build.create().show();
+                        } else {
+                            if (mTvSystem == TvCommonManager.TV_SYSTEM_ATSC) {
+                                mTvAtscChannelManager.programSel(ProgInf.majorNum, ProgInf.minorNum);
+                            } else {
+                                mTvChannelManager.selectProgram(ProgInf.number, ProgInf.serviceType);
+                            }
+                        }
+                    }
+                }
+                timeOutHelper.reset();
+            }
+        });
         if (!progInfoList.isEmpty()) {
             int selItemIndex = (int) proListView.getSelectedItemId();
             ProgramInfo ProgInf = progInfoList.get(selItemIndex);
@@ -643,6 +707,40 @@ public class ProgramListViewActivity extends MstarBaseActivity {
             }
         });
         timeOutHelper = new TimeOutHelper(handler, this);
+    }
+
+    private boolean isSameWithCurrentProgram(ProgramInfo ProgInf) {
+        boolean ret = false;
+        ProgramInfo curProgInfo = mTvChannelManager.getCurrentProgramInfo();
+
+        if (mTvSystem == TvCommonManager.TV_SYSTEM_ATSC) {
+            if ((curProgInfo.majorNum == ProgInf.majorNum)
+                    && (curProgInfo.minorNum == ProgInf.minorNum)
+                    && (curProgInfo.serviceType == ProgInf.serviceType)) {
+                ret = true;
+            }
+        } else {
+            if ((curProgInfo.number == ProgInf.number)
+                    && (curProgInfo.serviceType == ProgInf.serviceType)) {
+                ret = true;
+            }
+        }
+        return ret;
+    }
+
+    private boolean isNeedToCheckExitRecord(ProgramInfo pi) {
+        if (pi == null) {
+            return false;
+        }
+        /* Always time shift recording will auto stop by tvsystem. */
+        final TvPvrManager pvr = TvPvrManager.getInstance();
+        if (PVRActivity.FREQUENCY_NOT_RECORDING != pi.frequency
+                && pvr.isAlwaysTimeShiftRecording() == false
+                && pvr.isRecording()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -895,10 +993,19 @@ public class ProgramListViewActivity extends MstarBaseActivity {
                 String channum = mTvAtscChannelManager.getDispChannelNum(pgi);
                 String name = mTvAtscChannelManager.getDispChannelName(pgi);
                 plvio.setTvName(name);
+                //Toast.makeText(this,"plvio.setTvName(name)"+name,Toast.LENGTH_SHORT).show();
             } else {
                 plvio.setTvName(pgi.serviceName);
+                //Toast.makeText(this,"plvio.setTvName(pgi.serviceName)"+pgi.serviceName,Toast.LENGTH_SHORT).show();
             }
             if (pgi.serviceType == TvChannelManager.SERVICE_TYPE_ATV) {
+                Log.d(TAG,"pgi.serviceName:"+pgi.serviceName+" pgi.frequency:"+pgi.frequency);
+                //Toast.makeText(this,"pgi.frequency:"+pgi.frequency+" map:"+mMap.get("55055"),Toast.LENGTH_SHORT).show();
+                if(mMap.containsKey(String.valueOf(pgi.frequency))){
+                    plvio.setTvName(mMap.get(String.valueOf(pgi.frequency)));
+                    mTvChannelManager.setProgramName(pgi.number, pgi.serviceType, mMap.get(String.valueOf(pgi.frequency)));
+                    //Toast.makeText(this,"ChannelActivity.mMap.get(String.valueOf(pgi.frequency))"+mMap.get(String.valueOf(pgi.frequency)),Toast.LENGTH_SHORT).show();
+                }
                 plvio.setTvNumber(String.valueOf(Utility.getATVDisplayChNum(pgi.number)));
             } else {
                 if (mTvSystem == TvCommonManager.TV_SYSTEM_ATSC) {

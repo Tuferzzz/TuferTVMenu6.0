@@ -143,6 +143,8 @@
     <string name="str_mainmenu_sound_track">音轨</string>
     <string name="str_mainmenu_sound_channelselect">声道选择</string>
     <string name="str_mainmenu_sound_mute">静音</string>
+    <string name="str_mainmenu_sound_max">音量最大值</string>
+    <string name="str_mainmenu_sound_max_set">设置最大音量值</string>
     <string name="str_mainmenu_sound_soundmode_standard">标准</string>
     <string name="str_mainmenu_sound_soundmode_music">音乐</string>
     <string name="str_mainmenu_sound_soundmode_movie">影院</string>
@@ -413,6 +415,7 @@
     <string name="str_cha_bandwidth_switch">带宽切换</string>
     <string name="str_cha_bandwidth_uhf_7mhz">7MHz over UHF</string>
     <string name="str_cha_programedit">频道编辑</string>
+    <string name="str_cha_preinstalltable">预设ATV节目列表</string>
     <string name="str_cha_signalinfo">Signal Information</string>
     <string name="str_cha_ciinformation"> CI信息</string>
     <string name="str_cha_software_update_oad">Software Update (OAD)</string>
@@ -819,6 +822,32 @@
 
     <!-- for audio language list -->
     <string name="str_audio_language_title">音乐语种 </string>
+
+    <!-- for preinstall program table -->
+    <string name="str_preinstall_programtable">预设ATV节目列表</string>
+    <string name="str_preinstall_programtable_import">导入节目列表</string>
+    <string name="str_preinstall_programtable_updatefile">U盘节目表文件导入到本机</string>
+    <string name="str_preinstall_programtable_exprotfile">本机节目表文件拷贝到U盘</string>
+    <string name="str_preinstall_programtable_back">返回</string>
+
+    <string-array name="str_preinstall_programtable_showinfo">
+        <item name="str_import_programtable_fail">节目表导入失败</item>
+        <item name="str_import_programtable_success">节目表导入成功</item>
+        <item name="str_import_programtable_blank">当前TvChannel为空，请更新TvChannel</item>
+        <item name="str_usb_plug_fail">U盘识别失败</item>
+        <item name="str_usb_programtable_check">U盘TvChannel为空或TvChannel不符合要求</item>
+        <item name="str_usb_protable_copy_tv_fail">TvChannel文件拷贝失败</item>
+        <item name="str_tv_protable_copy_usb_success">TvChannel文件拷贝成功</item>
+        <item name="str_usb_new_list_txt_file">请手动先在U盘新建TvChannel文件，才能导出</item>
+        <item name="str_copy_date_loading">请勿拔U盘！数据在复制中.....</item>
+        <item name="str_export_protable_note">备注：\n
+        	                                    1.搜完台退出菜单后，系统自动将ATV节 \n
+        	                                     \t 目信息导出至TvChannel文件内。\n
+        	                                     \t  \n
+        	                                    2.清空本地TvChannel内容方法：执行搜台 \n
+        	                                     \t 后马上再退出即可清空。</item>
+    </string-array>
+
     <!-- for cimmi -->
     <string name="str_cimmi_title">CI信息</string>
     <string name="str_cimmi_hint_ci_inserted">CI卡插入</string>
@@ -2453,6 +2482,7 @@ apps.</string>
     <string name="get_weather_data_shibai">获取数据失败，请检查网络！</string>
     <string name="query_cityname_shibai">查询城市名有误，获取数据失败！</string>
     <string name="rename_null">修改名不能为空，修改失败！</string>
+    <string name="renumber_null">修改值不能为空，修改失败！</string>
     <string name="str_only_usermode_available">只在用户模式下可用!</string>
     <string name="str_function_not_open">该功能暂时未开放!</string>
 
@@ -2460,5 +2490,5 @@ apps.</string>
     <string name="buildVersion">版本号</string>
 
     <string name="set_local_name">修改本地名称成功!</string>
-
+    <string name="show_min_limit_maxvol">限制最大音量的值不能低于：</string>
 </resources>
