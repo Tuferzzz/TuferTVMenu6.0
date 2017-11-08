@@ -2491,4 +2491,5 @@ apps.</string>
 
     <string name="set_local_name">修改本地名称成功!</string>
     <string name="show_min_limit_maxvol">限制最大音量的值不能低于：</string>
+    <string name="str_exit_tv">退出电视</string>
 </resources>

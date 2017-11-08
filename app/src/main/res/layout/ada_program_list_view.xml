@@ -89,6 +89,17 @@
     <ListView
         android:id="@+id/program_edit_list_view"
         style="@style/program_edit_list_view_style" />
+    <Button
+        android:id="@+id/program_edit_exit"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="3dp"
+        android:text="@string/str_exit_tv"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:background="@drawable/picture_mode_img_focus"/>
 
 </LinearLayout>
 

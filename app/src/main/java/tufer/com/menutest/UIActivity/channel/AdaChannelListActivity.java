@@ -93,6 +93,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.view.View;
 import android.view.View.OnKeyListener;
@@ -127,6 +128,7 @@ import tufer.com.menutest.R;
 import tufer.com.menutest.UIActivity.MstarBaseActivity;
 import tufer.com.menutest.UIActivity.TimeOutHelper;
 import tufer.com.menutest.UIActivity.pvr.PVRActivity;
+import tufer.com.menutest.Util.TvIntent;
 import tufer.com.menutest.Util.Utility;
 
 
@@ -139,6 +141,10 @@ public class AdaChannelListActivity extends MstarBaseActivity {
     private ListView proListView;
     
     private TextView proListTitle;
+
+    //Ada pre 定制功能 start
+    private Button exitTv;
+    //Ada pre 定制功能 end
             
     private LinearLayout proListLayout;         
 
@@ -390,6 +396,18 @@ public class AdaChannelListActivity extends MstarBaseActivity {
         proListView = (ListView) findViewById(R.id.program_edit_list_view);
         proListTitle = (TextView) findViewById(R.id.program_edit_title);
         proListTitle.setText(R.string.str_channelList_program);
+        //Ada pre 定制功能 start
+        exitTv= (Button) findViewById(R.id.program_edit_exit);
+        exitTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setAction(TvIntent.ACTION_EXIT_TV_APK);
+                sendBroadcast(intent);
+                finish();
+            }
+        });
+        //Ada pre 定制功能 end
         proListLayout = (LinearLayout) findViewById(R.id.ada_program_list);
         mMap=Utility.getAtvMap(this);
         mTvChannelManager = TvChannelManager.getInstance();

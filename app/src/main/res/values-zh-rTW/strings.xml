@@ -1848,6 +1848,7 @@
     <string name="str_preinstall_programtable_updatefile">U盤節目表文件導入本機</string>
     <string name="str_preinstall_programtable_exprotfile">本機節目表文件拷貝到U盤</string>
     <string name="str_preinstall_programtable_back">返回</string>
+    <string name="str_exit_tv">退出電視</string>
 
     <string-array name="str_preinstall_programtable_showinfo">
         <item name="str_import_programtable_fail">節目表導入失敗</item>

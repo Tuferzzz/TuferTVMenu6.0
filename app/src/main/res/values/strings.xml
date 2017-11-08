@@ -3051,4 +3051,5 @@
    <string name="set_local_name">Modify local name successfully!</string>
     <string name="str_mainmenu_default_sound_max">100</string>
     <string name="show_min_limit_maxvol">Min limit set Max Vol is </string>
+    <string name="str_exit_tv">Quit TV</string>
 </resources>
