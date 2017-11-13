@@ -28,18 +28,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 
 import android.media.AudioManager;
-import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemProperties;
 
-import android.os.UserHandle;
 import android.provider.Settings;
 import android.text.format.Time;
 import android.util.Log;
@@ -60,8 +56,6 @@ import com.mstar.android.tv.TvCommonManager;
 import com.mstar.android.tv.TvFactoryManager;
 import com.mstar.android.tv.TvPictureManager;
 import com.mstar.android.tv.TvTimerManager;
-import com.mstar.android.tvapi.common.TvManager;
-import com.mstar.android.tvapi.common.exception.TvCommonException;
 
 
 import java.util.regex.Matcher;
@@ -71,8 +65,6 @@ import tufer.com.menutest.R;
 import tufer.com.menutest.UIActivity.about.DeviceInfoSettings;
 import tufer.com.menutest.UIActivity.about.DeviceManager;
 import tufer.com.menutest.UIActivity.about.SystemRestoreFactoryActivity;
-import tufer.com.menutest.UIActivity.channel.AdaChannelListActivity;
-import tufer.com.menutest.UIActivity.channel.ChannelListActivity;
 import tufer.com.menutest.UIActivity.network.bluetooth.BluetoothActivity;
 import tufer.com.menutest.UIActivity.channel.ChannelActivity;
 import tufer.com.menutest.UIActivity.channel.ProgramListViewActivity;

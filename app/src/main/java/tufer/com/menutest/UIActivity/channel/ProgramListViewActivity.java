@@ -1001,9 +1001,9 @@ public class ProgramListViewActivity extends MstarBaseActivity {
             if (pgi.serviceType == TvChannelManager.SERVICE_TYPE_ATV) {
                 Log.d(TAG,"pgi.serviceName:"+pgi.serviceName+" pgi.frequency:"+pgi.frequency);
                 //Toast.makeText(this,"pgi.frequency:"+pgi.frequency+" map:"+mMap.get("55055"),Toast.LENGTH_SHORT).show();
-                if(mMap.containsKey(String.valueOf(pgi.frequency))){
-                    plvio.setTvName(mMap.get(String.valueOf(pgi.frequency)));
-                    mTvChannelManager.setProgramName(pgi.number, pgi.serviceType, mMap.get(String.valueOf(pgi.frequency)));
+                if(mMap.containsKey(String.valueOf(pgi.number))){
+                    plvio.setTvName(mMap.get(String.valueOf(pgi.number)));
+                    mTvChannelManager.setProgramName(pgi.number, pgi.serviceType, mMap.get(String.valueOf(pgi.number)));
                     //Toast.makeText(this,"ChannelActivity.mMap.get(String.valueOf(pgi.frequency))"+mMap.get(String.valueOf(pgi.frequency)),Toast.LENGTH_SHORT).show();
                 }
                 plvio.setTvNumber(String.valueOf(Utility.getATVDisplayChNum(pgi.number)));

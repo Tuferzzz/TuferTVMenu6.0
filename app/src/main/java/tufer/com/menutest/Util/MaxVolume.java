@@ -69,25 +69,6 @@ public class MaxVolume {
         File file=null;
         try {
             if (filePath.length() != 0) {
-//                if (file == null) {
-//                    file = new File(filePath);
-//                    if (!file.exists()) {
-//                        Log.d(TAG, "writeValueToSQLFile-->Create the file:" + filePath);
-//                        if (!file.getParentFile().exists()) {
-//                            file.getParentFile().mkdirs();
-//                        }
-//                    }
-//                } else {
-//                    if (file.exists()) {
-//                        file.delete();
-//                    }
-//                }
-//                try {
-//                    file.createNewFile();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                    res = false;
-//                }
                 file = new File(filePath);
                 if(file.exists()) {
                     Log.d(TAG,"创建单个文件" + filePath + "失败，目标文件已存在！");

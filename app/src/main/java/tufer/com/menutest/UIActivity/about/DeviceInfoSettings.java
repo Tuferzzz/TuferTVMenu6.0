@@ -68,8 +68,8 @@ public class DeviceInfoSettings extends Activity {
 
         setContentView(R.layout.about);
         content = new String[] {
-                getTVModelNumber(), getTVSystemVersion(),getKernelVersion(), 
-                getSystemBuildVersion(),getTVMemoryInfo()
+                getTVModelNumber(), getTVSystemVersion(),getKernelVersion(),
+				getPreSotfwareVersion(),getTVMemoryInfo()
         };
         
         findViews();

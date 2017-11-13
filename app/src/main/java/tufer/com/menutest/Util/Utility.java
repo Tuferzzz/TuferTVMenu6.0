@@ -214,11 +214,11 @@ public class Utility {
         if(mMap==null||mMap.size()==0){
             mMap= new HashMap<String, String>();
             try {
-                if(!new File("/data/data/tufer.com.menutest/files/list.txt").exists()){
+                if(!new File("/data/local/list.txt").exists()){
                     Log.d(TAG,"list.txt文件不存在，创建文件并写入数据.");
                     FileOutputStream outStream = null;
                     try {
-                        outStream = context.openFileOutput("list.txt", Context.MODE_PRIVATE);
+                        outStream = new FileOutputStream("/data/local/list.txt");
                         outStream.write(("0@CCTV1综合@19205\n" +
                                 "1@CCTV2财经@20005\n" +
                                 "2@CCTV3综艺@12820\n" +
@@ -286,7 +286,8 @@ public class Utility {
                         e.printStackTrace();
                     }
                 }
-                FileInputStream inStream = context.openFileInput("list.txt");//只需传文件名
+                //FileInputStream inStream = context.openFileInput("list.txt");//只需传文件名
+                FileInputStream inStream = new FileInputStream("/data/local/list.txt");//只需传文件名
                 if (inStream != null) {
                     InputStreamReader inputreader = new InputStreamReader(inStream);
                     BufferedReader buffreader = new BufferedReader(inputreader);
@@ -295,7 +296,7 @@ public class Utility {
                     //分行读取
                     while ((line = buffreader.readLine()) != null) {
                         str = line.split("@");
-                        mMap.put(str[2], str[1]);
+                        mMap.put(str[0], str[1]);
 //                        Log.d(TAG, str[0] + ":" + str[1] + ":" + str[2]);
 //                        Log.d(TAG, mMap.get(str[2]) + ":" + str[1] );
                     }

@@ -128,7 +128,7 @@
 			android:hardwareAccelerated="true"
             android:launchMode="singleInstance"
             android:logo="@drawable/tv_menu_logo"
-            android:screenOrientation="landscape"
+            android:screenOrientation="unspecified"
             android:windowSoftInputMode="stateHidden|stateUnchanged">
 
             <intent-filter>
