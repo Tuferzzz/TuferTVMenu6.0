@@ -191,7 +191,9 @@ public class NetworkSettingsActivity extends Activity implements  ConnectivityLi
     }
     @Override
     protected void onStop() {
-        MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_NETWORK);
+		if(MainActivity.myMainActivity!=null){
+			MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_NETWORK);
+		}
         super.onStop();
     }
 }

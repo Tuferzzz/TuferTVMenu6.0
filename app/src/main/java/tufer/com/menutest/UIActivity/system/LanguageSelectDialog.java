@@ -289,7 +289,10 @@ public class LanguageSelectDialog extends Dialog {
                     }
                 }).start();
                 dismiss();
-                MainActivity.myMainActivity.finish();
+				if(MainActivity.myMainActivity!=null){
+					MainActivity.myMainActivity.finish();
+				}
+                
 
                 //mLanguageSettingActivity.finish();
 //                PackageManager manager = mLanguageSettingActivity.getPackageManager();

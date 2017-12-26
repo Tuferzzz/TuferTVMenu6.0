@@ -302,7 +302,9 @@ public class InputMethodAndLanguageSettingsActivity extends Activity {
     }
     @Override
     protected void onStop() {
-        MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_SYSTEM);
+		if(MainActivity.myMainActivity!=null){
+			MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_SYSTEM);
+		}
         super.onStop();
     }
 

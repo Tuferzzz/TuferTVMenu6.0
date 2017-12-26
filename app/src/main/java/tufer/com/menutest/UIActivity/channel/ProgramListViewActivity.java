@@ -477,6 +477,62 @@ public class ProgramListViewActivity extends MstarBaseActivity {
                 timeOutHelper.reset();
             }
         });
+        proListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int i, long l) {
+                    timeOutHelper.reset();
+                    new AlertDialog.Builder(ProgramListViewActivity.this)
+                            .setTitle(R.string.delete).setMessage(progInfoList.get(i).serviceName+getString(R.string.delete_atv_tips))
+                            .setPositiveButton(R.string.ok, new OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if ((!moveFlag) && plvios.size() != 0) {
+                                        int selItemIndex = i;
+                                        if (selItemIndex >= progInfoList.size()) {
+                                            return;
+                                        }
+                                        ProgramInfo selProgInfo = progInfoList.get(selItemIndex);
+                                        ProgramInfo curProgInfo = mTvChannelManager.getCurrentProgramInfo();
+                                        if (mTvSystem == TvCommonManager.TV_SYSTEM_ATSC) {
+                                            mTvChannelManager.setProgramAttribute(TvChannelManager.PROGRAM_ATTRIBUTE_DELETE, selProgInfo.majorNum,
+                                                    selProgInfo.minorNum, selProgInfo.progId, true);
+                                        } else {
+                                            mTvChannelManager.setProgramAttribute(TvChannelManager.PROGRAM_ATTRIBUTE_DELETE, selProgInfo.number,
+                                                    selProgInfo.serviceType, 0x00, true);
+                                        }
+                                        if ((curProgInfo.number == selProgInfo.number)
+                                                && (curProgInfo.serviceType == selProgInfo.serviceType)) {
+                                            if (TvChannelManager.SERVICE_TYPE_ATV == curProgInfo.serviceType) {
+                                                mTvChannelManager.changeToFirstService(
+                                                        TvChannelManager.FIRST_SERVICE_INPUT_TYPE_ATV,
+                                                        TvChannelManager.FIRST_SERVICE_DEFAULT);
+                                            } else if (TvChannelManager.SERVICE_TYPE_DTV == curProgInfo.serviceType) {
+                                                mTvChannelManager.changeToFirstService(
+                                                        TvChannelManager.FIRST_SERVICE_INPUT_TYPE_DTV,
+                                                        TvChannelManager.FIRST_SERVICE_DEFAULT);
+                                            }
+                                        }
+                                        refreshContent();
+                                        if (!progInfoList.isEmpty() && (proListView.getSelectedItemId() <= progInfoList.size())) {
+                                            if (proListView.getSelectedItemId() == progInfoList.size()) {
+                                                int lastSelItemIndex = progInfoList.size() - 1;
+                                                selItemIndex = lastSelItemIndex;
+                                            }
+                                        }
+                                    }
+                                }
+                            }).setNegativeButton(R.string.cancle, new OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+                timeOutHelper.reset();
+                    return true;
+                }
+        });
         if (!progInfoList.isEmpty()) {
             int selItemIndex = (int) proListView.getSelectedItemId();
             ProgramInfo ProgInf = progInfoList.get(selItemIndex);
@@ -704,6 +760,26 @@ public class ProgramListViewActivity extends MstarBaseActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        proListView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 触摸按下时的操作
+                        timeOutHelper.reset();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        // 触摸移动时的操作
+                        timeOutHelper.reset();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        // 触摸抬起时的操作
+                        timeOutHelper.reset();
+                        break;
+                }
+                return false;
             }
         });
         timeOutHelper = new TimeOutHelper(handler, this);
@@ -1140,7 +1216,9 @@ public class ProgramListViewActivity extends MstarBaseActivity {
 
     @Override
     protected void onStop() {
-        MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_CHANNEL);
+		if(MainActivity.myMainActivity!=null){
+			MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_CHANNEL);
+		}
         super.onStop();
     }
 

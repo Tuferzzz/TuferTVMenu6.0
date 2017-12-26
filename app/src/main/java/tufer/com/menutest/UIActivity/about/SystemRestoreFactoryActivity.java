@@ -300,7 +300,9 @@ public class SystemRestoreFactoryActivity extends Activity {
     }
     @Override
     protected void onStop() {
-        MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_ABOUT);
+		if(MainActivity.myMainActivity!=null){
+			MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_ABOUT);
+		}
         super.onStop();
     }
 

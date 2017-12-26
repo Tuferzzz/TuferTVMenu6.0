@@ -88,16 +88,17 @@
         style="@style/program_edit_title_style" />
     <ListView
         android:id="@+id/program_edit_list_view"
-        style="@style/program_edit_list_view_style" />
+        style="@style/program_edit_list_view_style"
+        android:nextFocusDown="@+id/program_edit_exit"/>
     <Button
         android:id="@+id/program_edit_exit"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="3dp"
+        android:layout_width="160dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="8dp"
         android:text="@string/str_exit_tv"
         android:gravity="center"
         android:layout_gravity="center_horizontal"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textColor="@color/white"
         android:background="@drawable/picture_mode_img_focus"/>
 

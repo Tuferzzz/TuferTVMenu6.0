@@ -2491,5 +2491,11 @@ apps.</string>
 
     <string name="set_local_name">修改本地名称成功!</string>
     <string name="show_min_limit_maxvol">限制最大音量的值不能低于：</string>
-    <string name="str_exit_tv">退出电视</string>
+    <string name="str_exit_tv">退出电视(Quit TV)</string>
+    <string name="str_mainmenu_system_powerlogo">开机动画设置</string>
+    <string name="str_please_input_password">请输入密码</string>
+    <string name="str_prompt">提示</string>
+    <string name="str_input_password_error">输入密码错误</string>
+    <string name="delete_atv_tips">将被永久删除，请确认此操作.</string>
+    <string name="str_only_vga_available">只在VGA通道下可用</string>
 </resources>

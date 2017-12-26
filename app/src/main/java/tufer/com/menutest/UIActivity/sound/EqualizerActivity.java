@@ -135,7 +135,10 @@ public class EqualizerActivity extends Activity {
     }
     @Override
     protected void onStop() {
-        MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_SOUND);
+		if(MainActivity.myMainActivity!=null){
+			MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_SOUND);
+		}
+
         super.onStop();
     }
 

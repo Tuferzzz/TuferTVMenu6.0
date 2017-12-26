@@ -90,7 +90,8 @@
         android:layout_height = "35dip"
         android:gravity = "center"
         android:textColor = "#ffffff"
-        android:layout_marginLeft = "5dip"/>
+        android:textSize="20sp"
+        android:layout_marginLeft = "10dip"/>
     <TextView
         android:id="@+id/program_edit_data"
         style="@style/program_edit_list_view_item_data_style"></TextView>

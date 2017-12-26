@@ -99,9 +99,11 @@ public class SelectDialog extends Activity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 mSelect=i;
                 setData();
-                MainActivity.myMainActivity.downTime=System.currentTimeMillis();
-                SharedPreferences preferences=getSharedPreferences("TuferTvMenu", Context.MODE_PRIVATE);
-                MainActivity.myMainActivity.isMenuShow=preferences.getBoolean("isMenuShow", false);
+				if(MainActivity.myMainActivity!=null){
+					MainActivity.myMainActivity.downTime=System.currentTimeMillis();
+					SharedPreferences preferences=getSharedPreferences("TuferTvMenu", Context.MODE_PRIVATE);
+					MainActivity.myMainActivity.isMenuShow=preferences.getBoolean("isMenuShow", false);
+				}  
                 finish();
 
             }
@@ -403,7 +405,9 @@ public class SelectDialog extends Activity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setAction("com.szada.systemui.action.LOCK.START");
             this.sendBroadcast(intent);
-            MainActivity.myMainActivity.finish();
+			if(MainActivity.myMainActivity!=null){
+				MainActivity.myMainActivity.finish();
+			}
         }
 
     }
@@ -508,35 +512,37 @@ public class SelectDialog extends Activity {
 
     @Override
     protected void onStop() {
-        MainActivity.myMainActivity.downTime=System.currentTimeMillis();
-        SharedPreferences preferences=getSharedPreferences("TuferTvMenu", Context.MODE_PRIVATE);
-        MainActivity.myMainActivity.isMenuShow=preferences.getBoolean("isMenuShow", false);
-        switch (MainActivity.myMainActivity.posion){
-            case 0:
-                MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_GENERAL);
-                break;
-            case 1:
-                MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_PICTURE);
-                break;
-            case 2:
-                MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_SOUND);
-                break;
-            case 3:
-                //MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_CHANNEL);
-                break;
-            case 4:
-                MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_NETWORK);
-                break;
-            case 5:
-                MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_INTELLIGENCE);
-                break;
-            case 6:
-                MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_SYSTEM);
-                break;
-            case 7:
-                MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_ABOUT);
-                break;
-        }
+		if(MainActivity.myMainActivity!=null){
+			MainActivity.myMainActivity.downTime=System.currentTimeMillis();
+			SharedPreferences preferences=getSharedPreferences("TuferTvMenu", Context.MODE_PRIVATE);
+			MainActivity.myMainActivity.isMenuShow=preferences.getBoolean("isMenuShow", false);
+			switch (MainActivity.myMainActivity.posion){
+				case 0:
+					MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_GENERAL);
+					break;
+				case 1:
+					MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_PICTURE);
+					break;
+				case 2:
+					MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_SOUND);
+					break;
+				case 3:
+					//MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_CHANNEL);
+					break;
+				case 4:
+					MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_NETWORK);
+					break;
+				case 5:
+					MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_INTELLIGENCE);
+					break;
+				case 6:
+					MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_SYSTEM);
+					break;
+				case 7:
+					MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_ABOUT);
+					break;
+			}
+		}
         super.onStop();
     }
 }

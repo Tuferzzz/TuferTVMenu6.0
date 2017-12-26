@@ -762,7 +762,9 @@ public class AppDetailInfoActivity extends Activity {
 
     @Override
     protected void onStop() {
-        MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_GENERAL);
+		if(MainActivity.myMainActivity!=null){
+			MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_GENERAL);
+		}      
         super.onStop();
     }
 }

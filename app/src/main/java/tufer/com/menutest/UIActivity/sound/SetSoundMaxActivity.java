@@ -90,7 +90,9 @@ public class SetSoundMaxActivity extends Activity {
 //        }
 //        Log.d(TAG,audioManager.getStreamMaxVolume(AudioManager.STREAM_SYSTEM)+"");
 //        Log.d(TAG,audioManager.getStreamVolume(AudioManager.STREAM_SYSTEM)+"");
-        MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_SOUND);
+		if(MainActivity.myMainActivity!=null){
+			MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_SOUND);
+		}
         super.onStop();
     }
 }

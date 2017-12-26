@@ -764,7 +764,7 @@ public class EthernetSettingsHolder {
             mEthernetV4Ip4.setText(ips[3]);
         }
 
-        if (netmask != null) {
+        if (netmask != null&&!netmask.equals("")) {
             String[] masks = Tools.resolutionIP(netmask);
             mEthernetV4Subnet1.setText(masks[0]);
             mEthernetV4Subnet2.setText(masks[1]);
@@ -772,7 +772,7 @@ public class EthernetSettingsHolder {
             mEthernetV4Subnet4.setText(masks[3]);
         }
 
-        if (gateway != null) {
+        if (gateway != null&&!gateway.equals("")) {
             String[] defaultWays = Tools.resolutionIP(gateway);
             mEthernetV4Gateway1.setText(defaultWays[0]);
             mEthernetV4Gateway2.setText(defaultWays[1]);
@@ -780,7 +780,7 @@ public class EthernetSettingsHolder {
             mEthernetV4Gateway4.setText(defaultWays[3]);
         }
 
-        if (dns1 != null) {
+        if (dns1 != null&&!dns1.equals("")) {
             String[] firstdnss = Tools.resolutionIP(dns1);
             mEthernetV4FirstDNS1.setText(firstdnss[0]);
             mEthernetV4FirstDNS2.setText(firstdnss[1]);
@@ -788,7 +788,7 @@ public class EthernetSettingsHolder {
             mEthernetV4FirstDNS4.setText(firstdnss[3]);
         }
 
-        if (dns2 != null) {
+        if (dns2 != null&&!dns2.equals("")) {
             String[] secdnss = Tools.resolutionIP(dns2);
             mEthernetV4SecondDNS1.setText(secdnss[0]);
             mEthernetV4SecondDNS2.setText(secdnss[1]);
@@ -1015,9 +1015,11 @@ public class EthernetSettingsHolder {
     public boolean isednull(){
     	 if (!Tools.matchIP(getEthernetV4Address())) {
     		 return false;
-    	 }else if(!Tools.matchIP(getEthernetV4Netmask())){
+    	 }
+         else if(!Tools.matchIP(getEthernetV4Netmask())){
     		 return false;
-    	 }else if(!Tools.matchIP(getEthernetV4Gateway())){
+    	 }
+         else if(!Tools.matchIP(getEthernetV4Gateway())){
     		 return false;
     	 }else if(!Tools.matchIP(getEthernetV4Dns1())){
     		 return false;

@@ -206,8 +206,10 @@ public class SetTimeOnDialogActivity extends Activity {
 
     @Override
     protected void onStop() {
+		if(MainActivity.myMainActivity!=null){
+			MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_INTELLIGENCE);
+		}
         tvTimerManager.setOnTimerEnable(enableOnTimer);
-        MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_INTELLIGENCE);
         finish();
         super.onStop();
     }

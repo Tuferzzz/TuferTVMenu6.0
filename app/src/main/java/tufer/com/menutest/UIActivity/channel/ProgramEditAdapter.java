@@ -173,7 +173,7 @@ public class ProgramEditAdapter extends BaseAdapter {
                 resId = R.drawable.list_menu_img_dtv_foucus;
         }
         sourceimage.setImageResource(resId);
-        sourceimage.setVisibility(View.VISIBLE);
+        sourceimage.setVisibility(View.GONE);
         return view;
     }
 }

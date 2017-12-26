@@ -95,7 +95,9 @@ public class SetLightActivity extends Activity {
 
     @Override
     protected void onStop() {
-        MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_PICTURE);
+		if(MainActivity.myMainActivity!=null){
+			MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_PICTURE);
+		}    
         super.onStop();
     }
 }

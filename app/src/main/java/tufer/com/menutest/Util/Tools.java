@@ -385,21 +385,25 @@ public class Tools {
         } else {
             netmask.append("0");
         }
+        Log.d("yesuo", "ipArray[0] ,gatewayArray[0]:"+ipArray[0]+","+gatewayArray[0]);
         if (ipArray[1].equals(gatewayArray[1])) {
             netmask.append(".255");
         } else {
             netmask.append(".0");
         }
+        Log.d("yesuo", "ipArray[0] ,gatewayArray[0]:"+ipArray[1]+","+gatewayArray[1]);
         if (ipArray[2].equals(gatewayArray[2])) {
             netmask.append(".255");
         } else {
             netmask.append(".0");
         }
+        Log.d("yesuo", "ipArray[0] ,gatewayArray[0]:"+ipArray[2]+","+gatewayArray[2]);
         if (ipArray[3].equals(gatewayArray[3])) {
             netmask.append(".255");
         } else {
             netmask.append(".0");
         }
+        Log.d("yesuo", "ipArray[0] ,gatewayArray[0]:"+ipArray[3]+","+gatewayArray[3]);
 
         return netmask.toString();
     }

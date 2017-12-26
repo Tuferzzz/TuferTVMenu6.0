@@ -1049,8 +1049,15 @@
         <item name="android:layout_marginBottom">0dp</item>
         <item name="android:gravity">center</item>
     </style>
+    <style name="button_textview_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
     <style name="program_edit_list_view_item_bg_style">
-        <item name="android:layout_width">320dip</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:layout_height">35dip</item>
     </style>
@@ -1070,24 +1077,25 @@
     </style>
     <style name="program_edit_memu_style">
         <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:layout_width">320dip</item>
-        <item name="android:layout_height">489dip</item>
+        <item name="android:layout_width">280dip</item>
+        <item name="android:layout_height">428dip</item>
         <item name="android:background">@drawable/list_menu_img_bg</item>
         <item name="android:orientation">vertical</item>
     </style>
     <style name="program_edit_title_style">
         <item name="android:text">@string/str_cha_programedit</item>
-        <item name="android:layout_marginTop">36dip</item>
-        <item name="android:layout_marginLeft">27dip</item>
+        <item name="android:layout_marginTop">30dip</item>
         <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
         <item name="android:layout_width">267dip</item>
         <item name="android:layout_height">35dip</item>
+        <item name="android:textSize">20sp</item>
     </style>
     <style name="program_edit_list_view_style">
-        <item name="android:layout_width">320dip</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_marginLeft">0dip</item>
-        <item name="android:layout_marginTop">8dip</item>
-        <item name="android:layout_height">347dip</item>
+        <item name="android:layout_marginTop">5dip</item>
+        <item name="android:layout_height">280dip</item>
         <item name="android:listSelector">@drawable/button_state</item>
     </style>
     <style name="program_edit_img_style">
@@ -1101,18 +1109,22 @@
         <item name="android:layout_height">35dip</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">#ffffff</item>
-        <item name="android:layout_marginLeft">27dip</item>
+        <item name="android:layout_marginLeft">20dip</item>
+        <item name="android:textSize">18sp</item>
     </style>
     <style name="program_edit_list_view_item_data_style">
-        <item name="android:layout_width">127dip</item>
+        <item name="android:layout_width">150dip</item>
         <item name="android:layout_height">35dip</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_marginLeft">10dp</item>
     </style>
     <style name="program_edit_list_view_item_img_style">
         <item name="android:layout_width">35dip</item>
         <item name="android:layout_height">17dip</item>
         <item name="android:layout_marginTop">9dip</item>
+        <item name="android:layout_marginLeft">10dip</item>
     </style>
     <style name="program_edit_list_view_item_icon_style">
         <item name="android:layout_width">17dip</item>

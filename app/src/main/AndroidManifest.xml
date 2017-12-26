@@ -103,7 +103,9 @@
     <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_STORAGE" />
 
-
+	<uses-sdk
+        android:minSdkVersion="19"
+        android:targetSdkVersion="25" />
 
     <uses-feature
         android:name="android.hardware.touchscreen"
@@ -128,7 +130,7 @@
 			android:hardwareAccelerated="true"
             android:launchMode="singleInstance"
             android:logo="@drawable/tv_menu_logo"
-            android:screenOrientation="unspecified"
+            android:screenOrientation="landscape"
             android:windowSoftInputMode="stateHidden|stateUnchanged">
 
             <intent-filter>
@@ -171,6 +173,8 @@
         </activity>
 
         <activity android:name=".UIActivity.pictrue.SetLightActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".UIActivity.pictrue.PCImageModeDialogActivity"
             android:launchMode="singleTask"/>
         <activity android:name=".UIActivity.sound.EqualizerActivity"
             android:launchMode="singleTask"/>

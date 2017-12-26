@@ -157,7 +157,6 @@ public class Utility {
             "VGA2","VGA3","HDMI-DP","OPS"
     };
 
-    private static String[] inputdata=null;
 
     public static String powerInputList[];
 
@@ -211,7 +210,6 @@ public class Utility {
     }
 
     public static Map getAtvMap(Context context){
-        if(mMap==null||mMap.size()==0){
             mMap= new HashMap<String, String>();
             try {
                 if(!new File("/data/local/list.txt").exists()){
@@ -307,7 +305,6 @@ public class Utility {
             } catch (IOException e) {
                 Log.d(TAG, e.getMessage());
             }
-        }
         return mMap;
     }
 
@@ -1208,10 +1205,15 @@ public class Utility {
     }
 
     public static int getinputpostion(int inputSrcIndexs){
-        inputdata=MainActivity.myMainActivity.getResources().getStringArray(
-                R.array.str_arr_input_source_vals);
+		String[] inputdata=null;
+		if(MainActivity.myMainActivity!=null){
+			inputdata=MainActivity.myMainActivity.getResources().getStringArray(R.array.str_arr_input_source_vals);
+		}
         ArrayList<InputSourceItem> mGalleryItemList;
-        GetTvSource getTvSource = new GetTvSource(MainActivity.myMainActivity);
+		GetTvSource getTvSource =null;
+		if(MainActivity.myMainActivity!=null){
+			getTvSource = new GetTvSource(MainActivity.myMainActivity);
+		}
         mGalleryItemList = getTvSource.getSource();
         int inputpostion = 1;
         switch(inputSrcIndexs){
@@ -1251,11 +1253,16 @@ public class Utility {
 
     public static String[] getPowerInputList(){
         ArrayList<InputSourceItem> mGalleryItemList;
-        GetTvSource getTvSource = new GetTvSource(MainActivity.myMainActivity);
+        GetTvSource getTvSource =null;
+		if(MainActivity.myMainActivity!=null){
+			getTvSource = new GetTvSource(MainActivity.myMainActivity);
+		}
         mGalleryItemList = getTvSource.getSource();
         powerInputList=new String[mGalleryItemList.size() + 2];
-        powerInputList[0] = MainActivity.myMainActivity.getResources().getStringArray(R.array.str_arr_general_powerinput_vals)[0];
-        powerInputList[1] = MainActivity.myMainActivity.getString(R.string.str_mainmenu_general_powerinput_android);
+		if(MainActivity.myMainActivity!=null){
+			powerInputList[0] = MainActivity.myMainActivity.getResources().getStringArray(R.array.str_arr_general_powerinput_vals)[0];
+			powerInputList[1] = MainActivity.myMainActivity.getString(R.string.str_mainmenu_general_powerinput_android);
+		}
         for (int i = 2; i <= mGalleryItemList.size() + 1; i++) {
             powerInputList[i] = mGalleryItemList.get(i - 2).getInputSourceName();
         }

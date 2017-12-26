@@ -35,6 +35,7 @@ import android.net.IpConfiguration;
 import android.net.LinkAddress;
 import android.net.LinkProperties;
 import android.net.NetworkInfo;
+import android.net.StaticIpConfiguration;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiConfiguration.KeyMgmt;
@@ -49,6 +50,7 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
+
 
 /**
  * Listens for changes to the current connectivity status.
@@ -128,7 +130,7 @@ public class ConnectivityListener {
         mListener = listener;
         mFilter = new IntentFilter();
         mFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-  //      mFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION_IMMEDIATE);
+        //mFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION_IMMEDIATE);
         mFilter.addAction(ConnectivityManager.INET_CONDITION_ACTION);
         mFilter.addAction(WifiManager.RSSI_CHANGED_ACTION);
      
@@ -241,8 +243,10 @@ public class ConnectivityListener {
     public String getEthernetIpAddress() {
         LinkProperties linkProperties =
                 mConnectivityManager.getLinkProperties(ConnectivityManager.TYPE_ETHERNET);
+        StaticIpConfiguration staticConfig = new StaticIpConfiguration();
 			
-		if(mConnectivityManager.getActiveNetworkInfo() != null){
+		if(mConnectivityManager.getActiveNetworkInfo() != null&&
+                linkProperties!=null){
 			for (LinkAddress linkAddress: linkProperties.getAllLinkAddresses()) {
 				InetAddress address = linkAddress.getAddress();
             
@@ -253,7 +257,7 @@ public class ConnectivityListener {
 			}
 		}
         // IPv6 address will not be shown like WifiInfo internally does.
-        return "";
+        return null;
     }
     public String getDnsadd(){
     	  NetworkInfo networkInfo = mConnectivityManager.getActiveNetworkInfo();

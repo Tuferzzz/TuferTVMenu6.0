@@ -51,6 +51,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.mstar.android.MIntent;
 import com.mstar.android.tv.TvAudioManager;
 import com.mstar.android.tv.TvCommonManager;
 import com.mstar.android.tv.TvFactoryManager;
@@ -77,6 +78,7 @@ import tufer.com.menutest.UIActivity.general.weather.WeaterActivity;
 import tufer.com.menutest.UIActivity.intelligence.SetTimeOffDialogActivity;
 import tufer.com.menutest.UIActivity.intelligence.SetTimeOnDialogActivity;
 import tufer.com.menutest.UIActivity.network.networkfove.NetworkSettingsActivity;
+import tufer.com.menutest.UIActivity.pictrue.PCImageModeDialogActivity;
 import tufer.com.menutest.UIActivity.pictrue.SetLightActivity;
 import tufer.com.menutest.UIActivity.sound.EqualizerActivity;
 import tufer.com.menutest.UIActivity.sound.SetSoundMaxActivity;
@@ -190,6 +192,9 @@ public class MainActivity extends Activity  {
             }
         }
     };
+
+
+    private boolean isBlindPanel=false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -322,7 +327,7 @@ public class MainActivity extends Activity  {
                 @Override
                 public void onClick(View view) {
                     downTime=System.currentTimeMillis();
-                    if(mTvPictureManager.getPictureMode()!=3&&finalI>=6&&finalI<=9){
+                    if(mTvPictureManager.getPictureMode()!=3&&finalI>=7&&finalI<=10){
                         Toast.makeText(MainActivity.this, getString(R.string.str_only_usermode_available),Toast.LENGTH_SHORT).show();
                     }else{
                         mainMenuViewHolder.setNoneBackground(posion,flag);
@@ -485,28 +490,41 @@ public class MainActivity extends Activity  {
         String deviceName = InputDevice.getDevice(event.getDeviceId()).getName();
         switch (keyCode) {
             case KeyEvent.KEYCODE_MENU:
+                isBlindPanel=false;
+                number.delete(0,number.length());
                 finish();
                 return true;
             case KeyEvent.KEYCODE_DPAD_UP:
+                isBlindPanel=false;
+                number.delete(0,number.length());
                 dropUp();
                 //Toast.makeText(this,"遥控上键："+posion+","+flag,Toast.LENGTH_SHORT).show();
                 break;
             case KeyEvent.KEYCODE_DPAD_DOWN:
+                isBlindPanel=false;
+                number.delete(0,number.length());
                 dropDown();
                 //Toast.makeText(this,"遥控下键："+posion+","+flag,Toast.LENGTH_SHORT).show();
                 break;
             case KeyEvent.KEYCODE_DPAD_LEFT:
+                number.delete(0,number.length());
                 dropLeft();
                 //Toast.makeText(this,"遥控左键："+posion+","+flag,Toast.LENGTH_SHORT).show();
                 break;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
+                isBlindPanel=false;
+                number.delete(0,number.length());
                 dropRight();
                 //Toast.makeText(this,"遥控右键："+posion+","+flag,Toast.LENGTH_SHORT).show();
                 break;
             case KeyEvent.KEYCODE_ENTER:
+                number.delete(0,number.length());
+                isBlindPanel=false;
                 click();
                 break;
             case KeyEvent.KEYCODE_CHANNEL_UP:
+                number.delete(0,number.length());
+                isBlindPanel=false;
                 if(deviceName.equals("MStar Smart TV Keypad")){
                     keyInjection(KeyEvent.KEYCODE_DPAD_UP);
                 }else if(deviceName.equals("MStar Smart TV IR Receiver")){
@@ -514,6 +532,8 @@ public class MainActivity extends Activity  {
                 }
                 return true;
             case KeyEvent.KEYCODE_CHANNEL_DOWN:
+                isBlindPanel=false;
+                number.delete(0,number.length());
                 if(deviceName.equals("MStar Smart TV Keypad")){
                     keyInjection(KeyEvent.KEYCODE_DPAD_DOWN);
                 }else if(deviceName.equals("MStar Smart TV IR Receiver")){
@@ -521,6 +541,8 @@ public class MainActivity extends Activity  {
                 }
                 return true;
             case KeyEvent.KEYCODE_VOLUME_UP:
+                isBlindPanel=false;
+                number.delete(0,number.length());
                 if(deviceName.equals("MStar Smart TV Keypad")){
                     keyInjection(KeyEvent.KEYCODE_DPAD_RIGHT);
                 }else if(deviceName.equals("MStar Smart TV IR Receiver")){
@@ -528,6 +550,8 @@ public class MainActivity extends Activity  {
                 }
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
+                isBlindPanel=false;
+                number.delete(0,number.length());
                 if(deviceName.equals("MStar Smart TV Keypad")){
                     keyInjection(KeyEvent.KEYCODE_DPAD_LEFT);
                 }else if(deviceName.equals("MStar Smart TV IR Receiver")){
@@ -543,20 +567,48 @@ public class MainActivity extends Activity  {
 //                    PackageManager manager = getPackageManager();
 //                    Intent intent = manager.getLaunchIntentForPackage("mstar.factorymenu.ui");
 //                    startActivity(intent);
+                }else if(isBlindPanel&&number.indexOf("1920")!=-1){
+                    this.sendBroadcast(new Intent(MIntent.ACTION_CHANGE_RESOLUTION_1920));
+                    return true;
+                } else if(isBlindPanel&&number.indexOf("1600")!=-1){
+                    this.sendBroadcast(new Intent(MIntent.ACTION_CHANGE_RESOLUTION_1600));
+                    return true;
+                }else if(isBlindPanel&&number.indexOf("1440")!=-1){
+                    this.sendBroadcast(new Intent(MIntent.ACTION_CHANGE_RESOLUTION_1440));
+                    return true;
+                }
+                if(number.length()==4){
                     number.delete(0,number.length());
+                    isBlindPanel=false;
                 }
                 break;
             case KeyEvent.KEYCODE_1:
                 number.append("1");
+                if(number.length()==4){
+                    number.delete(0,number.length());
+                    isBlindPanel=false;
+                }
                 break;
             case KeyEvent.KEYCODE_2:
                 number.append("2");
+                if(number.length()==4){
+                    number.delete(0,number.length());
+                    isBlindPanel=false;
+                }
                 break;
             case KeyEvent.KEYCODE_4:
                 number.append("4");
+                if(number.length()==4){
+                    number.delete(0,number.length());
+                    isBlindPanel=false;
+                }
                 break;
             case KeyEvent.KEYCODE_5:
                 number.append("5");
+                if(number.length()==4){
+                    number.delete(0,number.length());
+                    isBlindPanel=false;
+                }
                 break;
             case KeyEvent.KEYCODE_7:
                 number.append("7");
@@ -564,17 +616,36 @@ public class MainActivity extends Activity  {
                     Intent intent = new Intent(
                             "mstar.tvsetting.ui.intent.action.mainmenuActivity");
                     startActivity(intent);
+                }
+                if(number.length()==4){
                     number.delete(0,number.length());
+                    isBlindPanel=false;
                 }
                 break;
             case KeyEvent.KEYCODE_8:
                 number.append("8");
+                if(number.length()==4){
+                    number.delete(0,number.length());
+                    isBlindPanel=false;
+                }
                 break;
             case KeyEvent.KEYCODE_3:
                 number.append("3");
+                if(number.length()==4){
+                    number.delete(0,number.length());
+                    isBlindPanel=false;
+                }
                 break;
             case KeyEvent.KEYCODE_6:
                 number.append("6");
+                if(isBlindPanel&&number.indexOf("1366")!=-1){
+                    this.sendBroadcast(new Intent(MIntent.ACTION_CHANGE_RESOLUTION_1366));
+                    return true;
+                }
+                if(number.length()==4){
+                    number.delete(0,number.length());
+                    isBlindPanel=false;
+                }
                 break;
             case KeyEvent.KEYCODE_9:
                 number.append("9");
@@ -590,7 +661,10 @@ public class MainActivity extends Activity  {
                     Intent intent=new Intent();
                     intent.setComponent(componentName);
                     startActivity(intent);
+                }
+                if(number.length()==4){
                     number.delete(0,number.length());
+                    isBlindPanel=false;
                 }
                 break;
         }
@@ -626,9 +700,9 @@ public class MainActivity extends Activity  {
                 case 1:
                     mainMenuViewHolder.picture[flag].setBackgroundResource(0);
                     if(mTvPictureManager.getPictureMode()!=3){
-                        flag=getFlag(-4,5);
+                        flag=getFlag(-4,mainMenuViewHolder.picture.length-5);
                     }else{
-                        flag=getFlag(-4,9);
+                        flag=getFlag(-4,mainMenuViewHolder.picture.length-1);
                     }
                     if(flag!=-1) mainMenuViewHolder.picture[flag].setBackgroundResource(R.drawable.mainmenu_button2_focus);
                     break;
@@ -689,9 +763,9 @@ public class MainActivity extends Activity  {
                 case 1:
                     mainMenuViewHolder.picture[flag].setBackgroundResource(0);
                     if(mTvPictureManager.getPictureMode()!=3){
-                        flag=getFlag(4,5);
+                        flag=getFlag(4,mainMenuViewHolder.picture.length-5);
                     }else{
-                        flag=getFlag(4,9);
+                        flag=getFlag(4,mainMenuViewHolder.picture.length-1);
                     }
                     if(flag!=-1) mainMenuViewHolder.picture[flag].setBackgroundResource(R.drawable.mainmenu_button2_focus);
                     break;
@@ -731,8 +805,9 @@ public class MainActivity extends Activity  {
 
     private void dropLeft() {
         if(flag==-1){
-
+            isBlindPanel=true;
         }else{
+            isBlindPanel=false;
             switch (posion){
                 case 0:
                     mainMenuViewHolder.general[flag].setBackgroundResource(0);
@@ -742,9 +817,9 @@ public class MainActivity extends Activity  {
                 case 1:
                     mainMenuViewHolder.picture[flag].setBackgroundResource(0);
                     if(mTvPictureManager.getPictureMode()!=3){
-                        flag=getFlag(-1,5);
+                        flag=getFlag(-1,mainMenuViewHolder.picture.length-5);
                     }else{
-                        flag=getFlag(-1,9);
+                        flag=getFlag(-1,mainMenuViewHolder.picture.length-1);
                     }
                     if(flag!=-1) mainMenuViewHolder.picture[flag].setBackgroundResource(R.drawable.mainmenu_button2_focus);
                     break;
@@ -822,9 +897,9 @@ public class MainActivity extends Activity  {
                 case 1:
                     mainMenuViewHolder.picture[flag].setBackgroundResource(0);
                     if(mTvPictureManager.getPictureMode()!=3){
-                        flag=getFlag(1,5);
+                        flag=getFlag(1,mainMenuViewHolder.picture.length-5);
                     }else{
-                        flag=getFlag(1,9);
+                        flag=getFlag(1,mainMenuViewHolder.picture.length-1);
                     }
                     if(flag!=-1) mainMenuViewHolder.picture[flag].setBackgroundResource(R.drawable.mainmenu_button2_focus);
                     break;
@@ -920,15 +995,20 @@ public class MainActivity extends Activity  {
         mainMenuViewHolder.imgnoisereduction_val.setText(getResources().getStringArray(R.array.str_arr_pic_imgnoisereduction_vals)[mTvPictureManager.getNoiseReduction()]);
         mainMenuViewHolder.mpegnoisereduction_val.setText(getResources().getStringArray(R.array.str_arr_pic_mpegnoisereduction_vals)[mTvPictureManager.getMpegNoiseReduction()]);
         if(mTvPictureManager.getPictureMode()!=3){
-            enableSingleItemOrNot(mainMenuViewHolder.picture[6],false);
             enableSingleItemOrNot(mainMenuViewHolder.picture[7],false);
             enableSingleItemOrNot(mainMenuViewHolder.picture[8],false);
             enableSingleItemOrNot(mainMenuViewHolder.picture[9],false);
+            enableSingleItemOrNot(mainMenuViewHolder.picture[10],false);
         }else {
-            enableSingleItemOrNot(mainMenuViewHolder.picture[6],true);
             enableSingleItemOrNot(mainMenuViewHolder.picture[7],true);
             enableSingleItemOrNot(mainMenuViewHolder.picture[8],true);
             enableSingleItemOrNot(mainMenuViewHolder.picture[9],true);
+            enableSingleItemOrNot(mainMenuViewHolder.picture[10],true);
+        }
+        if(mainMenuViewHolder.isVGA){
+            enableSingleItemOrNot(mainMenuViewHolder.picture[6],true);
+        }else{
+            enableSingleItemOrNot(mainMenuViewHolder.picture[6],false);
         }
     }
 
@@ -1163,6 +1243,14 @@ public class MainActivity extends Activity  {
                             startActivity(intent);
                             break;
                         case 6:
+                            if(mainMenuViewHolder.isVGA){
+                                intent=new Intent(MainActivity.this,PCImageModeDialogActivity.class);
+                                startActivity(intent);
+                            }else{
+                                Toast.makeText(this, getString(R.string.str_only_vga_available),Toast.LENGTH_SHORT).show();
+                            }
+                            break;
+                        case 7:
                             if(mTvPictureManager.getPictureMode()==3){
                                 pictruePosition=0;
                                 intent = new Intent(MainActivity.this,SetLightActivity.class);
@@ -1172,7 +1260,7 @@ public class MainActivity extends Activity  {
                                 Toast.makeText(this, getString(R.string.str_only_usermode_available),Toast.LENGTH_SHORT).show();
                             }
                             break;
-                        case 7:
+                        case 8:
                             if(mTvPictureManager.getPictureMode()==3){
                                 pictruePosition=1;
                                 intent = new Intent(MainActivity.this,SetLightActivity.class);
@@ -1182,7 +1270,7 @@ public class MainActivity extends Activity  {
                                 Toast.makeText(this, getString(R.string.str_only_usermode_available),Toast.LENGTH_SHORT).show();
                             }
                             break;
-                        case 8:
+                        case 9:
                             if(mTvPictureManager.getPictureMode()==3){
                                 pictruePosition=2;
                                 intent = new Intent(MainActivity.this,SetLightActivity.class);
@@ -1192,7 +1280,7 @@ public class MainActivity extends Activity  {
                                 Toast.makeText(this, getString(R.string.str_only_usermode_available),Toast.LENGTH_SHORT).show();
                             }
                             break;
-                        case 9:
+                        case 10:
                             if(mTvPictureManager.getPictureMode()==3){
                                 pictruePosition=3;
                                 intent = new Intent(MainActivity.this,SetLightActivity.class);
@@ -1249,6 +1337,7 @@ public class MainActivity extends Activity  {
                                 audio.setStreamVolume(AudioManager.STREAM_SYSTEM,volume,AudioManager.FLAG_PLAY_SOUND
                                         | AudioManager.FLAG_SHOW_UI);
                             }else{
+                                volume=audio.getStreamVolume( AudioManager.STREAM_SYSTEM );
                                 isMute=!isMute;
                                 audio.setStreamVolume(AudioManager.STREAM_SYSTEM,0,AudioManager.FLAG_PLAY_SOUND
                                         | AudioManager.FLAG_SHOW_UI);
@@ -1268,8 +1357,39 @@ public class MainActivity extends Activity  {
                             startActivity(intent);
                             break;
                         case 1:
-                            intent=new Intent(this, ProgramListViewActivity.class);
-                            startActivity(intent);
+                            final EditText inputPassword = new EditText(this);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                            builder.setTitle(getString(R.string.str_please_input_password))
+                                    .setIcon(android.R.drawable.ic_dialog_info)
+                                    .setView(inputPassword)
+                                    .setNegativeButton(getString(R.string.str_mainmenu_dialog_cancel), null);
+                            builder.setPositiveButton(getString(R.string.str_mainmenu_dialog_confirm), new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // TODO Auto-generated method stub
+
+                                    String input = inputPassword.getText().toString();//得到输入的数值
+
+                                    String password = getString(R.string.str_password_logo);//得到文件中的数据
+                                    if (input.equals(password)) {
+                                        try {
+                                            Intent intent=new Intent(MainActivity.this, ProgramListViewActivity.class);
+                                            startActivity(intent);
+                                        }catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                        finish();
+                                    } else {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                                        builder.setTitle(getString(R.string.str_prompt));
+                                        builder.setMessage(getString(R.string.str_input_password_error));
+                                        builder.setPositiveButton(getString(R.string.str_mainmenu_dialog_confirm), null);
+                                        builder.show();
+                                    }
+                                }
+                            });
+                            builder.show();
                             break;
                     }
                     break;
@@ -1396,6 +1516,45 @@ public class MainActivity extends Activity  {
                                     getString(R.string.str_mainmenu_default_switch_on):
                                     getString(R.string.str_mainmenu_default_switch_off));
                             break;
+                        case 3:
+                            final EditText inputPassword = new EditText(this);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                            builder.setTitle(getString(R.string.str_please_input_password))
+                                    .setIcon(android.R.drawable.ic_dialog_info)
+                                    .setView(inputPassword)
+                                    .setNegativeButton(getString(R.string.str_mainmenu_dialog_cancel), null);
+                            builder.setPositiveButton(getString(R.string.str_mainmenu_dialog_confirm), new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // TODO Auto-generated method stub
+
+                                    String input = inputPassword.getText().toString();//得到输入的数值
+
+                                    String password = getString(R.string.str_password_logo);//得到文件中的数据
+                                    if (input.equals(password)) {
+                                        try {
+                                            Intent intent=new Intent();
+                                            ComponentName cn=new ComponentName("mstar.factorymenu.ui",
+                                                    "mstar.tvsetting.factory.ui.factorymenu.FactoryMenuActivity");
+                                            intent.setComponent(cn);
+                                            startActivity(intent);
+                                        }catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                        finish();
+                                    } else {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                                        builder.setTitle(getString(R.string.str_prompt));
+                                        builder.setMessage(getString(R.string.str_input_password_error));
+                                        builder.setPositiveButton(getString(R.string.str_mainmenu_dialog_confirm), null);
+                                        builder.show();
+                                    }
+                                }
+                            });
+                            builder.show();
+
+                            break;
                     }
                     break;
                 case 7:
@@ -1441,8 +1600,10 @@ public class MainActivity extends Activity  {
                         break;
                     case BluetoothAdapter.STATE_ON:
 //                    LogUtil.e("onReceive---------STATE_ON");
-                        MainActivity.myMainActivity.mainMenuViewHolder.bluetooth_val.
+						if(MainActivity.myMainActivity!=null){
+							MainActivity.myMainActivity.mainMenuViewHolder.bluetooth_val.
                                 setText(MainActivity.myMainActivity.getString(R.string.str_mainmenu_default_switch_on));
+						}
                         break;
                     case BluetoothAdapter.STATE_TURNING_OFF:
 //                    LogUtil.e("onReceive---------STATE_TURNING_OFF");
@@ -1451,8 +1612,10 @@ public class MainActivity extends Activity  {
                     case BluetoothAdapter.STATE_OFF:
 //                    LogUtil.e("onReceive---------STATE_OFF");
 //                    BleUtil.toReset(mContext);
-                        MainActivity.myMainActivity.mainMenuViewHolder.bluetooth_val.
+						if(MainActivity.myMainActivity!=null){
+							MainActivity.myMainActivity.mainMenuViewHolder.bluetooth_val.
                                 setText(MainActivity.myMainActivity.getString(R.string.str_mainmenu_default_switch_off));
+						} 
                         break;
                 }
             }else  if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(action)){
@@ -1462,8 +1625,10 @@ public class MainActivity extends Activity  {
                     case WifiManager.WIFI_STATE_ENABLED:
                         //MainActivity.isWifiOn=true;
                         //mScanner.resume();
-                        MainActivity.myMainActivity.mainMenuViewHolder.wifi_val.
+						if(MainActivity.myMainActivity!=null){
+							MainActivity.myMainActivity.mainMenuViewHolder.wifi_val.
                                 setText(MainActivity.myMainActivity.getString(R.string.str_mainmenu_default_switch_on));
+						}
                         return; // not break, to avoid the call to pause() below
                     case WifiManager.WIFI_STATE_ENABLING:
                         // addMessagePreference(R.string.wifi_starting);
@@ -1475,8 +1640,10 @@ public class MainActivity extends Activity  {
 //                    if (mAdapter != null) {
 //                        mAdapter.updateConnectedSsid("", false);
 //                    }
-                        MainActivity.myMainActivity.mainMenuViewHolder.wifi_val.
+						if(MainActivity.myMainActivity!=null){
+							MainActivity.myMainActivity.mainMenuViewHolder.wifi_val.
                                 setText(MainActivity.myMainActivity.getString(R.string.str_mainmenu_default_switch_off));
+						}
                         break;
                 }
             }else if (WifiManager.WIFI_AP_STATE_CHANGED_ACTION.equals(action)) {
@@ -1496,8 +1663,10 @@ public class MainActivity extends Activity  {
 //                    // Doesnt need the airplane check
 //                    checkBox.setEnabled(true);
 //                    MainActivity.isWifiHotspotOn=true;
-                        MainActivity.myMainActivity.mainMenuViewHolder.wifihotspot_val.
+						if(MainActivity.myMainActivity!=null){
+							MainActivity.myMainActivity.mainMenuViewHolder.wifihotspot_val.
                                 setText(MainActivity.myMainActivity.getString(R.string.str_mainmenu_default_switch_on));
+						}
                         break;
                     case WifiManager.WIFI_AP_STATE_DISABLING:
 //                    Log.d(TAG, "WIFI_AP_STATE_DISABLING");
@@ -1510,8 +1679,10 @@ public class MainActivity extends Activity  {
 //                    checkBox.setEnabled(true);
 //                    MainActivity.isWifiHotspotOn=true;
 //                    checkBox.setChecked(false);
-                        MainActivity.myMainActivity.mainMenuViewHolder.wifihotspot_val.
+						if(MainActivity.myMainActivity!=null){
+							MainActivity.myMainActivity.mainMenuViewHolder.wifihotspot_val.
                                 setText(MainActivity.myMainActivity.getString(R.string.str_mainmenu_default_switch_off));
+						}
                         break;
                     default:
 //                    checkBox.setChecked(false);

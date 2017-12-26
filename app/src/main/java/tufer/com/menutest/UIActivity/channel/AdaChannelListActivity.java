@@ -642,6 +642,27 @@ public class AdaChannelListActivity extends MstarBaseActivity {
                 }
             }
         });
+
+        proListView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 触摸按下时的操作
+                        timeOutHelper.reset();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        // 触摸移动时的操作
+                        timeOutHelper.reset();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        // 触摸抬起时的操作
+                        timeOutHelper.reset();
+                        break;
+                }
+                return false;
+            }
+        });
         
         proListView.setOnScrollListener(new OnScrollListener() {
 						

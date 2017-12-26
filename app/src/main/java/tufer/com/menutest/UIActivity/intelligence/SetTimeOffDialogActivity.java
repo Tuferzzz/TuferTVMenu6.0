@@ -190,8 +190,10 @@ public class SetTimeOffDialogActivity extends Activity {
 
     @Override
     protected void onStop() {
-        tvTimerManager.setOffTimerEnable(comboBtnPowerOffSwitch.getIdx() == 0 ? false : true);
-        MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_INTELLIGENCE);
+		if(MainActivity.myMainActivity!=null){
+			MainActivity.myMainActivity.handler.sendEmptyMessage(MainActivity.UPDATE_INTELLIGENCE);
+		}
+        tvTimerManager.setOffTimerEnable(comboBtnPowerOffSwitch.getIdx() == 0 ? false : true);        
         finish();
         super.onStop();
     }

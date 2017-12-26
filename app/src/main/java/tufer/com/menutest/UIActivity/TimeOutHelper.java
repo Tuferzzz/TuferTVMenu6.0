@@ -165,7 +165,8 @@ public class TimeOutHelper implements Runnable {
 
     public void init() {
         int remainingTime = 0;
-        remainingTime = getTimeOutFormMenuDB();
+        //remainingTime = getTimeOutFormMenuDB();
+        remainingTime = 20;
         // No residual time?
         if (remainingTime != 5 && remainingTime != 10 && remainingTime != 15 && remainingTime != 20
                 && remainingTime != 30) {

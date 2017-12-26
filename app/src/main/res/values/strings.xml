@@ -3051,5 +3051,12 @@
    <string name="set_local_name">Modify local name successfully!</string>
     <string name="str_mainmenu_default_sound_max">100</string>
     <string name="show_min_limit_maxvol">Min limit set Max Vol is </string>
-    <string name="str_exit_tv">Quit TV</string>
+    <string name="str_exit_tv">退出电视(Quit TV)</string>
+    <string name="str_mainmenu_system_powerlogo">Boot animation settings</string>
+    <string name="str_please_input_password">Please input a password</string>
+    <string name="str_password_logo">1111</string>
+    <string name="str_prompt">Prompt</string>
+    <string name="str_input_password_error">Input password error</string>
+    <string name="delete_atv_tips">将被永久删除，请确认此操作.</string>
+    <string name="str_only_vga_available">只在VGA通道下可用</string>
 </resources>

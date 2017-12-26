@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-
+import com.mstar.android.tv.TvCommonManager;
 import com.mstar.android.tv.TvFactoryManager;
 
 
@@ -21,6 +21,7 @@ import tufer.com.menutest.UIActivity.general.powerinput.GetTvSource;
 import tufer.com.menutest.UIActivity.general.powerinput.InputSourceItem;
 import tufer.com.menutest.UIActivity.system.city.CitySettingActivity;
 import tufer.com.menutest.Util.MaxVolume;
+import tufer.com.menutest.Util.TVRootApp;
 import tufer.com.menutest.Util.Utility;
 
 
@@ -47,7 +48,7 @@ public class MainMenuViewHolder {
     int[] pictureId={R.id.linearlayout_picture_picturemode,R.id.linearlayout_picture_xvYCC,
             R.id.linearlayout_picture_zoommode,R.id.linearlayout_picture_color_temperature,
             R.id.linearlayout_picture_mpegnoisereduction,R.id.linearlayout_picture_imgnoisereduction,
-            R.id.linearlayout_picture_brightness,
+            R.id.linearlayout_picture_pc,R.id.linearlayout_picture_brightness,
             R.id.linearlayout_picture_contrast,R.id.linearlayout_picture_backlight,
             R.id.linearlayout_picture_hue};
     TextView picturemode_val,xvYCC_val,zoommode_val,color_temperature_val,imgnoisereduction_val,mpegnoisereduction_val;
@@ -55,6 +56,7 @@ public class MainMenuViewHolder {
     int[] pictrueTextViewId={R.id.textview_picture_brightness_val,R.id.textview_picture_contrast_val,
             R.id.textview_picture_backlight_val,R.id.textview_picture_hue_val};
     TextView[] pictrueTextView;
+    boolean isVGA=false;
 
     LinearLayout[] sound;
     int[] soundId={R.id.linearlayout_sound_soundmode,R.id.linearlayout_sound_srs,
@@ -91,7 +93,7 @@ public class MainMenuViewHolder {
 
     LinearLayout[] system;
     int[] systemId={R.id.linearlayout_system_inputmethod,R.id.linearlayout_system_location,
-            R.id.linearlayout_system_powermusic};
+            R.id.linearlayout_system_powermusic,R.id.linearlayout_system_powerlogo};
     TextView location_val,powermusic_val;
 
     LinearLayout[] about;
@@ -155,7 +157,7 @@ public class MainMenuViewHolder {
     }
 
     private void initPicture() {
-        picture=new LinearLayout[10];
+        picture=new LinearLayout[11];
         for(int i=0;i<picture.length;i++){
             picture[i]=new LinearLayout(activity);
             picture[i]= (LinearLayout) activity.findViewById(pictureId[i]);
@@ -166,16 +168,33 @@ public class MainMenuViewHolder {
         picturemode_val.setText(activity.getResources().getStringArray(R.array.str_arr_picture_picturemode_vals)
                 [activity.mTvPictureManager.getPictureMode()]);
         if(activity.mTvPictureManager.getPictureMode()!=3){
-            activity.enableSingleItemOrNot(picture[6],false);
             activity.enableSingleItemOrNot(picture[7],false);
             activity.enableSingleItemOrNot(picture[8],false);
             activity.enableSingleItemOrNot(picture[9],false);
+            activity.enableSingleItemOrNot(picture[10],false);
 
         }else {
-            activity.enableSingleItemOrNot(picture[6],true);
             activity.enableSingleItemOrNot(picture[7],true);
             activity.enableSingleItemOrNot(picture[8],true);
             activity.enableSingleItemOrNot(picture[9],true);
+            activity.enableSingleItemOrNot(picture[10],true);
+        }
+        if (TvCommonManager.getInstance() != null) {
+            int inputSrc = TvCommonManager.getInstance()
+                    .getCurrentTvInputSource();
+
+            if ((inputSrc == TvCommonManager.INPUT_SOURCE_VGA)
+                    || (inputSrc == TvCommonManager.INPUT_SOURCE_VGA2)
+                    || (inputSrc == TvCommonManager.INPUT_SOURCE_VGA3)) {
+                if ((TvCommonManager.getInstance().isSignalStable(inputSrc))) {
+                    isVGA = true;
+                }
+            }
+        }
+        if(isVGA){
+            activity.enableSingleItemOrNot(picture[6],true);
+        }else{
+            activity.enableSingleItemOrNot(picture[6],false);
         }
         //setFocus(picture);
         zoommode_val= (TextView) activity.findViewById(R.id.textview_picture_zoommode_val);
@@ -318,7 +337,7 @@ public class MainMenuViewHolder {
     }
 
     private void initSystem() {
-        system=new LinearLayout[3];
+        system=new LinearLayout[4];
         for(int i=0;i<system.length;i++){
             system[i]=new LinearLayout(activity);
             system[i]= (LinearLayout) activity.findViewById(systemId[i]);

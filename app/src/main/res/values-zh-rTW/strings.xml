@@ -1848,7 +1848,13 @@
     <string name="str_preinstall_programtable_updatefile">U盤節目表文件導入本機</string>
     <string name="str_preinstall_programtable_exprotfile">本機節目表文件拷貝到U盤</string>
     <string name="str_preinstall_programtable_back">返回</string>
-    <string name="str_exit_tv">退出電視</string>
+    <string name="str_exit_tv">退出電視(Quit TV)</string>
+    <string name="str_mainmenu_system_powerlogo">開機動畫設定</string>
+    <string name="str_please_input_password">請輸入密碼</string>
+    <string name="str_prompt">提示</string>
+    <string name="str_input_password_error">輸入密碼錯誤</string>
+    <string name="delete_atv_tips">将被永久删除，请确认此操作.</string>
+    <string name="str_only_vga_available">只在VGA通道下可用</string>
 
     <string-array name="str_preinstall_programtable_showinfo">
         <item name="str_import_programtable_fail">節目表導入失敗</item>
